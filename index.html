@@ -3,35 +3,50 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Google site verification -->
   <meta name="google-site-verification" content="9BGaHpsqevRo9JmmEwG2fD_27ZVueRyymfoPkAEz_Ec" />
+
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HKGH8FZZXH"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
+    // keep anonymize_ip like your old working setup
     gtag('config', 'G-HKGH8FZZXH', { 'anonymize_ip': true });
   </script>
+
+  <!-- Primary Meta Tags -->
   <title>Smart Cam Scanner – Camera to PDF | Online Document Scanner | Free Image to PDF</title>
   <meta name="title" content="Smart Cam Scanner – Camera to PDF | Online Document Scanner | Free Image to PDF">
   <meta name="description" content="Free online camera-to-PDF tool with smart crop, auto-enhance, adaptive B/W, image merging, multi-format support (JPEG, PNG, WEBP, AVIF, HEIC, HEIF). Simple, fast, secure, no install needed.">
-  <meta name="keywords" content="camera to pdf, cam scanner online, free scanner tool, image to pdf, merge images, merge pdf, online document scanner, smart scanner, scan to pdf free, camera scan tool, auto crop scan, phone scanner web app, auto crop, heic to pdf, avif to pdf, webp to pdf, best online scanner">
+  <meta name="keywords" content="camera to pdf, cam scanner online, free scanner tool, image to pdf, merge images, merge pdf, online document scanner, smart scanner, scan to pdf free, camera scan tool, auto crop scan, heic to pdf, avif to pdf, webp to pdf, best online scanner">
   <meta name="robots" content="index, follow">
   <meta name="language" content="English">
   <meta name="author" content="Smart Cam Scanner">
   <link rel="canonical" href="https://cameratopdf.skycommunics.com/">
+
+  <!-- Icons & PWA -->
   <link rel="icon" type="image/png" href="/icons/icon-192.png">
   <link rel="apple-touch-icon" href="/icons/icon-512.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#1a73e8">
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://cameratopdf.skycommunics.com/">
   <meta property="og:title" content="Smart Cam Scanner – Free Camera to PDF Tool">
   <meta property="og:description" content="Online smart doc scanner with auto crop, B/W mode, image merge, and full image support (JPEG, PNG, WEBP, AVIF, HEIC, HEIF). No installation required.">
   <meta property="og:image" content="https://cameratopdf.skycommunics.com/preview.png">
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Smart Cam Scanner – Free Camera to PDF Tool">
   <meta name="twitter:description" content="Fast online camera-to-PDF scanner with smart crop, B/W, merge and multi-format support.">
   <meta name="twitter:image" content="https://cameratopdf.skycommunics.com/preview.png">
+
+  <!-- Structured data -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -46,21 +61,37 @@
     "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
   }
   </script>
+
+  <!-- libs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://unpkg.com/heic2any/dist/heic2any.min.js"></script>
+
   <style>
-    :root{--accent:#21d4fd;--accent-2:#1a73e8;--danger:#ff3b3b;--muted:#6b7280;--bg:#eef2ff;--line:#ffffff;--card:#ffffff;--btn-blue:#e9f6ff;--btn-size:78px;--fb-blue:#1877f2;}
+    :root{
+      --accent:#21d4fd;
+      --accent-2:#1a73e8;
+      --danger:#ff3b3b;
+      --muted:#6b7280;
+      --bg:#eef2ff;
+      --line:#ffffff;
+      --card:#ffffff;
+      --btn-blue:#e9f6ff;
+      --btn-size:86px; /* slightly bigger icons */
+      --fb-blue: #1877f2;
+    }
     *{box-sizing:border-box}
     body{font-family:system-ui,Roboto,Arial;background:linear-gradient(180deg,#eef2ff 0%, #f8fbff 100%);margin:0;padding:18px;color:#202124}
+    .page{max-width:980px;margin:0 auto}
     .container{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 30px rgba(0,0,0,0.08);max-width:980px;margin:auto}
     .title-banner{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:12px}
     .title-text h1{margin:0;font-size:20px;font-weight:800}
     .title-text p{margin:2px 0 0;font-size:13px;color:#5f6368}
+    /* top controls */
     .top-row{display:flex;gap:12px;align-items:center;margin-top:10px}
-    .tool-btn{width:var(--btn-size);height:var(--btn-size);border-radius:12px;background:var(--btn-blue);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:0;box-shadow:0 6px 18px rgba(33,41,77,0.06);gap:6px;padding:8px}
-    .tool-icon{width:30px;height:30px;display:block}
-    .tool-label{font-size:12px;color:#111;text-align:center}
+    .tool-btn{width:var(--btn-size);height:var(--btn-size);border-radius:12px;background:var(--btn-blue);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:0;box-shadow:0 6px 18px rgba(33,41,77,0.06);gap:8px;padding:8px}
+    .tool-icon{width:40px;height:40px;display:block} /* increased */
+    .tool-label{font-size:13px;color:#111;text-align:center}
     .small-btn{padding:10px 14px;border-radius:8px;border:0;cursor:pointer;font-size:14px;font-weight:600}
     #tip{margin-top:12px;color:#444;font-size:14px}
     .thumbs{margin-top:20px;display:flex;flex-wrap:wrap;gap:12px}
@@ -73,6 +104,13 @@
     .move-right{right:6px}
     .actions{margin-top:18px;display:none}
     .actions select{padding:8px;border-radius:8px;font-size:14px}
+    /* small global message */
+    #globalMsg { margin-top:10px; color:#0b69c8; font-weight:600; display:none; }
+    /* spinners */
+    .spinner { width:18px;height:18px;border-radius:50%;border:3px solid rgba(0,0,0,0.08);border-top-color:var(--accent); animation:spin 1s linear infinite; display:inline-block; vertical-align:middle; margin-left:8px; }
+    .hidden { display:none!important; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    /* Crop modal */
     #cropModal{position:fixed;inset:0;background:rgba(0,0,0,0.88);display:none;align-items:center;justify-content:center;z-index:9999}
     #cropBox{background:#fff;padding:12px;border-radius:12px;max-width:95vw;max-height:92vh;overflow:auto}
     .crop-stage{position:relative;display:inline-block;background:#000;border-radius:8px;padding:8px;touch-action:none}
@@ -90,547 +128,1329 @@
     .badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
     .badge{padding:6px 10px;border-radius:999px;background:#f3f6ff;border:1px solid #e6f0ff;color:#0b69c8;font-weight:700;font-size:13px}
     @media(max-width:600px){
-      :root{--btn-size:68px}
+      :root{--btn-size:78px}
       .tool-label{font-size:11px}
-      .tool-icon{width:28px;height:28px}
+      .tool-icon{width:34px;height:34px}
       .thumb{width:98px;height:130px}
       .thumb-placeholder{width:98px;height:130px}
     }
   </style>
 </head>
+
 <body>
-<div style="max-width:980px;margin:auto;padding:0 18px 12px;">
-  <button id="installBtn" style="display:none;padding:10px 16px;background:#1a73e8;color:white;border:0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Install App</button>
-</div>
-<div class="container" role="main" aria-labelledby="appTitle">
-  <div class="title-banner" role="banner">
-    <div class="title-text">
-      <h1 id="appTitle">Smart Cam Scanner</h1>
-      <p>input supported: jpeg, png, webp, avif, heic/heif — output support: pdf, jpeg, png, webp, avif (browser-dependent)</p>
-    </div>
+  <div style="max-width:980px;margin:auto;padding:0 18px 12px;">
+    <button id="installBtn" style="display:none;padding:10px 16px;background:#1a73e8;color:white;border:0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Install App</button>
   </div>
-  <div class="top-row" role="toolbar" aria-label="Tools">
-    <label id="cameraBtn" class="tool-btn" title="Open device camera" tabindex="0">
-      <svg class="tool-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6" width="18" height="12" rx="2" fill="#0ea5ff"/><circle cx="12" cy="12" r="3.2" fill="white"/></svg>
-      <input id="nativeCam" type="file" accept="image/*,image/heic,image/heif,image/avif" capture="environment" multiple hidden>
-      <div class="tool-label">Camera</div>
-    </label>
-    <label id="galleryBtn" class="tool-btn" title="Choose from gallery" tabindex="0">
-      <svg class="tool-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="3" fill="#7c3aed"/><path d="M7 15l3-4 4 5 3-3 3 4H7z" fill="white"/></svg>
-      <input id="pick" type="file" accept="image/*,image/heic,image/heif,image/avif" multiple hidden>
-      <div class="tool-label">Gallery</div>
-    </label>
-    <button id="moreTools" class="tool-btn" title="More tools" aria-haspopup="true">
-      <svg class="tool-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#0b69c8" d="M21.7 13.35l-2.9-2.9a2 2 0 0 0-2.83 0l-.87.87a6.5 6.5 0 0 0-3.2-1.1L12 8a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v1.2a6.5 6.5 0 0 0-1.1 3.2l.87-.87a2 2 0 0 0 0-2.83l-2.9-2.9A1 1 0 0 0 .3 6.3l2.9 2.9a2 2 0 0 0 2.83 0l.87-.87a6.5 6.5 0 0 0 3.2 1.1V12a2 2 0 0 0 2 2h1.2a6.5 6.5 0 0 0 1.1 3.2l-.87.87a2 2 0 0 0 0 2.83l2.9 2.9a1 1 0 0 0 1.41 0l1.91-1.91a1 1 0 0 0 0-1.41z"/>
-      </svg>
-      <div class="tool-label">More Tools</div>
-    </button>
-    <button id="clearAll" class="tool-btn" title="Clear all">
-      <svg class="tool-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#c0392b" d="M6 7h12v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path fill="#fff" d="M9 10h6v2H9zM9 13h6v2H9z"/></svg>
-      <div class="tool-label">Clear All</div>
-    </button>
-  </div>
-  <div id="tip">Tap Camera to take pictures or Gallery to choose files. Use both together to add more images.</div>
-  <div id="thumbs" class="thumbs" aria-live="polite"></div>
-  <div id="actions" class="actions" role="region" aria-label="Actions">
-    <button id="savePDF" class="small-btn" style="background:var(--accent);color:white">Save PDF</button>
-    <div style="margin-top:8px">
-      <label>Save as:</label>
-      <select id="imgFormat"><option value="jpeg">JPEG</option><option value="png">PNG</option><option value="webp">WEBP</option><option value="avif">AVIF</option></select>
-    </div>
-    <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
-      <button id="saveImages" class="small-btn" style="background:#0ea5ff;color:white">Save Images</button>
-      <button id="saveMerged" class="small-btn" style="background:#10b981;color:white">Merge All</button>
-    </div>
-  </div>
-</div>
-<div id="cropModal" aria-hidden="true">
-  <div id="cropBox">
-    <div class="crop-stage" id="cropStage">
-      <img id="cropImage" alt="preview"/>
-      <svg id="cropSVG" xmlns="http://www.w3.org/2000/svg"></svg>
-    </div>
-    <div class="crop-toolbar">
-      <button id="cropToggle" class="small-btn" style="background:black;color:white">Crop</button>
-      <button id="rotateBtn" class="small-btn" style="background:#374151;color:white">Rotate ⟳</button>
-      <button id="applyGray" class="small-btn" style="background:#374151;color:white">Grayscale</button>
-      <button id="applyBW" class="small-btn" style="background:#111;color:white">B/W</button>
-      <div class="bw-control" title="Adjust B/W darkness">
-        <label style="font-size:13px;color:#444">B/W</label>
-        <input id="bwRange" type="range" min="0" max="100" value="50" step="1" style="width:160px">
+
+  <div class="container" role="main" aria-labelledby="appTitle">
+    <!-- Title banner: google-drive style -->
+    <div class="title-banner" role="banner">
+      <div class="title-text">
+        <h1 id="appTitle">Smart Cam Scanner</h1>
+        <p>input supported: jpeg, png, webp, avif, heic/heif — output support: pdf, jpeg, png, webp (browser-dependent)</p>
       </div>
-      <button id="origBtn" class="small-btn" style="background:#6b7280;color:white">Original</button>
-      <button id="saveBtn" class="small-btn" style="background:var(--accent);color:white">Save</button>
-      <button id="cropCancel" class="small-btn" style="background:var(--danger);color:white">Cancel</button>
     </div>
-    <div class="small-note">Tip: Click a thumbnail to edit — crop/filters/rotate. Use the B/W slider to adjust darkness before saving.</div>
+
+    <!-- top controls -->
+    <div class="top-row" role="toolbar" aria-label="Tools">
+      <label id="cameraBtn" class="tool-btn" title="Open device camera" tabindex="0">
+        <!-- larger camera icon -->
+        <svg class="tool-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd">
+            <rect x="2" y="6" width="20" height="12" rx="2.5" fill="#0ea5ff"/>
+            <circle cx="12" cy="12" r="3.4" fill="#fff"/>
+            <rect x="6" y="4" width="3" height="2" rx="0.8" fill="#7dd3fc"/>
+          </g>
+        </svg>
+        <!-- camera: use image/* with capture to open camera directly on supporting devices -->
+        <input id="nativeCam" type="file" accept="image/*,image/heic,image/heif,image/avif" capture="environment" multiple hidden>
+        <div class="tool-label">Camera</div>
+      </label>
+
+      <label id="galleryBtn" class="tool-btn" title="Choose from gallery" tabindex="0">
+        <svg class="tool-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="18" height="18" rx="3" fill="#7c3aed"/>
+          <path d="M7 15l3-4 4 5 3-3 3 4H7z" fill="#fff"/>
+        </svg>
+        <!-- gallery: image/* to open gallery picker on mobile -->
+        <input id="pick" type="file" accept="image/*,image/heic,image/heif,image/avif" multiple hidden>
+        <div class="tool-label">Gallery</div>
+      </label>
+
+      <button id="moreTools" class="tool-btn" title="More tools" aria-haspopup="true">
+        <!-- changed to a gear/wrench icon for clarity -->
+        <svg class="tool-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#0b69c8" d="M19.14 12.94a7.48 7.48 0 0 0 .05-.94 7.48 7.48 0 0 0-.05-.94l2.03-1.58a.5.5 0 0 0 .12-.63l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.25 7.25 0 0 0-1.63-.94l-.36-2.54A.5.5 0 0 0 14.5 0h-4a.5.5 0 0 0-.49.42l-.36 2.54c-.57.22-1.11.52-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L1.41 8.43a.5.5 0 0 0 .12.63l2.03 1.58c-.03.31-.03.62 0 .94L1.53 14.1a.5.5 0 0 0-.12.63l1.92 3.32c.13.22.39.32.62.22l2.39-.96c.52.42 1.06.72 1.63.94l.36 2.54c.05.28.28.42.49.42h4c.21 0 .44-.14.49-.42l.36-2.54c.57-.22 1.11-.52 1.63-.94l2.39.96c.23.09.49 0 .62-.22l1.92-3.32a.5.5 0 0 0-.12-.63l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/>
+        </svg>
+        <div class="tool-label">More Tools</div>
+      </button>
+
+      <button id="clearAll" class="tool-btn" title="Clear all">
+        <svg class="tool-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#c0392b" d="M6 7h12v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path fill="#fff" d="M9 10h6v2H9zM9 13h6v2H9z"/></svg>
+        <div class="tool-label">Clear All</div>
+      </button>
+    </div>
+
+    <div id="tip">Tap Camera to take pictures or Gallery to choose files. Use both together to add more images.</div>
+    <div id="globalMsg"></div>
+
+    <div id="thumbs" class="thumbs" aria-live="polite"></div>
+
+    <div id="actions" class="actions" role="region" aria-label="Actions">
+      <button id="savePDF" class="small-btn" style="background:var(--accent);color:white">Save PDF <span id="spinnerSavePDF" class="spinner hidden"></span></button>
+      <div style="margin-top:8px">
+        <label>Save as:</label>
+        <!-- removed AVIF output option as requested -->
+        <select id="imgFormat"><option value="jpeg">JPEG</option><option value="png">PNG</option><option value="webp">WEBP</option></select>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button id="saveImages" class="small-btn" style="background:#0ea5ff;color:white">Save Images <span id="spinnerSaveImages" class="spinner hidden"></span></button>
+        <button id="saveMerged" class="small-btn" style="background:#10b981;color:white">Merge All <span id="spinnerMerge" class="spinner hidden"></span></button>
+      </div>
+    </div>
+
   </div>
-</div>
-<section id="readme" style="padding:20px; max-width:980px;margin:18px auto; font-size:14px; color:#444; background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.04)">
-  <div style="display:flex;gap:8px;align-items:center;">
-    <h2 style="margin:0 8px 8px 0;">How to use / Readme</h2>
-    <div style="margin-left:auto;display:flex;gap:8px">
-      <button id="readmeLangBtn" class="small-btn" style="background:#f3f4f6;border:1px solid #e5e7eb">हिन्दी</button>
-      <button id="readmeEngBtn" class="small-btn" style="background:#f3f4f6;border:1px solid #e5e7eb">English</button>
+
+  <!-- Crop modal -->
+  <div id="cropModal" aria-hidden="true">
+    <div id="cropBox">
+      <div class="crop-stage" id="cropStage">
+        <img id="cropImage" alt="preview"/>
+        <svg id="cropSVG" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+
+      <div class="crop-toolbar">
+        <button id="cropToggle" class="small-btn" style="background:black;color:white">Crop</button>
+        <button id="rotateBtn" class="small-btn" style="background:#374151;color:white">Rotate ⟳</button>
+        <button id="applyGray" class="small-btn" style="background:#374151;color:white">Grayscale</button>
+        <button id="applyBW" class="small-btn" style="background:#111;color:white">B/W</button>
+
+        <div class="bw-control" title="Adjust B/W darkness">
+          <label style="font-size:13px;color:#444">B/W</label>
+          <input id="bwRange" type="range" min="0" max="100" value="50" step="1" style="width:160px">
+        </div>
+
+        <button id="origBtn" class="small-btn" style="background:#6b7280;color:white">Original</button>
+        <button id="saveBtn" class="small-btn" style="background:var(--accent);color:white">Save <span id="spinnerSaveCrop" class="spinner hidden"></span></button>
+        <button id="cropCancel" class="small-btn" style="background:var(--danger);color:white">Cancel</button>
+      </div>
+
+      <div class="small-note">Tip: Click a thumbnail to edit — crop/filters/rotate. Use the B/W slider to adjust darkness before saving.</div>
     </div>
   </div>
-  <div id="readmeContent" style="margin-top:12px;line-height:1.6;color:#333"></div>
-  <div class="badge-row" aria-hidden="true">
-    <div class="badge">Free • No cost</div>
-    <div class="badge">Privacy-first • Client-side</div>
-    <div class="badge">Supports HEIC/HEIF • JPEG • PNG • WEBP • AVIF</div>
-    <div class="badge">PWA • Offline Capable</div>
-  </div>
-  <hr style="margin:16px 0;border:none;border-top:1px solid #eee">
-  <h3 style="margin:0 0 8px 0">Compare & Why choose Smart Cam Scanner</h3>
-  <p style="margin:0 0 12px 0">
-    Compared with popular apps (CamScanner, Adobe Scan, Google Drive scan), Smart Cam Scanner focuses on being:
-    <strong>fast, privacy-first (all processing client-side), lightweight PWA, accepts modern formats (HEIC/AVIF), and provides high-quality adaptive B/W</strong>.
-  </p>
-  <h4 style="margin:8px 0 6px 0">Features</h4>
-  <ul>
-    <li>Smart Auto Crop & Perspective Fix</li>
-    <li>Adaptive B/W tuned for document clarity (less crushed blacks)</li>
-    <li>Merge multiple images to single PDF</li>
-    <li>Save images in JPEG/PNG/WEBP/AVIF (browser support) — HEIC best-effort for input, exported as JPEG/PNG/WEBP/AVIF where supported.</li>
-    <li>PWA installable & works offline for core features</li>
-  </ul>
-  <div style="margin-top:12px;color:#666;font-size:13px">Feedback / Support inside footer button or email: <a href="mailto:skycommunics@gmail.com">skycommunics@gmail.com</a></div>
-</section>
-<footer>
-  <div style="margin-bottom:8px;">
-    <a class="fb-feedback" href="mailto:skycommunics@gmail.com">Feedback</a>
-  </div>
-  <div style="color:#999">© <a href="https://skycommunics.com" target="_blank" rel="noopener">skycommunics.com</a> — Smart Cam Scanner</div>
-</footer>
-<script>
-/* Agla hissa ke liye "script part 3" bolen */
-</script>
 
-<script>
-// ========================= STATE VARIABLES =================================
-let originals = [];
-let originalsFiles = [];
-let previews = [];
-let uiPreview = [];
-let grayscaleFlags = [];
-let bwFlags = [];
-let transforms = [];
-let currentIndex = null;
-let cropVisible = false;
+  <!-- README / How-to -->
+  <section id="readme" style="padding:20px; max-width:980px;margin:18px auto; font-size:14px; color:#444; background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.04)">
+    <div style="display:flex;gap:8px;align-items:center;">
+      <h2 style="margin:0 8px 8px 0;">How to use / Readme</h2>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button id="readmeLangBtn" class="small-btn" style="background:#f3f4f6;border:1px solid #e5e7eb">हिन्दी</button>
+        <button id="readmeEngBtn" class="small-btn" style="background:#f3f4f6;border:1px solid #e5e7eb">English</button>
+      </div>
+    </div>
 
-// ============ DOM ELEMENTS =============
-const nativeCam = document.getElementById('nativeCam');
-const pick = document.getElementById('pick');
-const thumbs = document.getElementById('thumbs');
-const actions = document.getElementById('actions');
-const savePDF = document.getElementById('savePDF');
-const saveImages = document.getElementById('saveImages');
-const saveMerged = document.getElementById('saveMerged');
-const imgFormat = document.getElementById('imgFormat');
-const clearAll = document.getElementById('clearAll');
-const moreTools = document.getElementById('moreTools');
+    <div id="readmeContent" style="margin-top:12px;line-height:1.6;color:#333"></div>
 
-const cropModal = document.getElementById('cropModal');
-const cropImage = document.getElementById('cropImage');
-const cropSVG = document.getElementById('cropSVG');
-const cropToggle = document.getElementById('cropToggle');
-const rotateBtn = document.getElementById('rotateBtn');
-const applyGray = document.getElementById('applyGray');
-const applyBW = document.getElementById('applyBW');
-const bwRange = document.getElementById('bwRange');
-const origBtn = document.getElementById('origBtn');
-const saveBtn = document.getElementById('saveBtn');
-const cropCancel = document.getElementById('cropCancel');
-const installBtn = document.getElementById('installBtn');
-const readmeContent = document.getElementById('readmeContent');
-const readmeLangBtn = document.getElementById('readmeLangBtn');
-const readmeEngBtn = document.getElementById('readmeEngBtn');
+    <div class="badge-row" aria-hidden="true">
+      <!-- Trusted badges requested to be in readme -->
+      <div class="badge">Free • No cost</div>
+      <div class="badge">Privacy-first • Client-side</div>
+      <div class="badge">Supports HEIC/HEIF • JPEG • PNG • WEBP • AVIF</div>
+      <div class="badge">PWA • Offline Capable</div>
+    </div>
 
-// =========== LANGUAGE TOGGLE LOGIC ==========
-const EN_README = `<h3>How to use Smart Cam Scanner (English)</h3>
-<ol>
-  <li>Use the <strong>Camera</strong> button to take a photo of your document. Photos appear as thumbnails on the page.</li>
-  <li>Use the <strong>Gallery</strong> button to add images from your device.</li>
-  <li>Click a thumbnail to edit: crop, grayscale, B/W, rotate.</li>
-  <li>Press <strong>Save</strong> after editing to apply changes.</li>
-  <li>Use <strong>Save PDF</strong> or <strong>Save Images</strong> for export.</li>
-</ol>`;
-const HI_README = `<h3>कैसे उपयोग करें — Smart Cam Scanner (हिन्दी)</h3>
-<ol>
-  <li><strong>Camera</strong> बटन से डॉक्युमेंट की फोटो लें, फोटो नीचे थंबनेल में दिखेगी।</li>
-  <li><strong>Gallery</strong> से इमेज जोड़ें।</li>
-  <li>थंबनेल पर क्लिक कर के एडिट (crop, grayscale, B/W, rotate) करें।</li>
-  <li>एडिट के बाद <strong>Save</strong> दबाएं।</li>
-  <li><strong>Save PDF</strong> या <strong>Save Images</strong> से डाउनलोड करें।</li>
-</ol>`;
-function setReadme(lang) {
-  if (lang === 'hi') {
-    readmeContent.innerHTML = HI_README;
-    readmeLangBtn.style.display = 'none';
-    readmeEngBtn.style.display = 'inline-block';
-  } else {
-    readmeContent.innerHTML = EN_README;
-    readmeLangBtn.style.display = 'inline-block';
-    readmeEngBtn.style.display = 'none';
+    <hr style="margin:16px 0;border:none;border-top:1px solid #eee">
+    <h3 style="margin:0 0 8px 0">Compare & Why choose Smart Cam Scanner</h3>
+    <p style="margin:0 0 12px 0">
+      Compared with popular apps (CamScanner, Adobe Scan, Google Drive scan), Smart Cam Scanner focuses on being:
+      <strong>fast, privacy-first (all processing client-side), lightweight PWA, accepts modern formats (HEIC/AVIF), and provides high-quality adaptive B/W</strong>.
+    </p>
+
+    <h4 style="margin:8px 0 6px 0">Features</h4>
+    <ul>
+      <li>Smart Auto Crop & Perspective Fix</li>
+      <li>Adaptive B/W tuned for document clarity (less crushed blacks)</li>
+      <li>Merge multiple images to single PDF</li>
+      <li>Save images in JPEG/PNG/WEBP (browser support) — HEIC best-effort for input, exported as JPEG/PNG/WEBP where supported.</li>
+      <li>PWA installable & works offline for core features</li>
+    </ul>
+
+    <div style="margin-top:12px;color:#666;font-size:13px">Feedback / Support inside footer button or email: <a href="mailto:skycommunics@gmail.com">skycommunics@gmail.com</a></div>
+  </section>
+
+  <!-- footer with blue feedback button -->
+  <footer>
+    <div style="margin-bottom:8px;">
+      <a class="fb-feedback" href="mailto:skycommunics@gmail.com">Feedback</a>
+    </div>
+    <div style="color:#999">© <a href="https://skycommunics.com" target="_blank" rel="noopener">skycommunics.com</a> — Smart Cam Scanner</div>
+  </footer>
+
+  <script>
+  /* ================= CONFIG ================= */
+  const PREVIEW_MAX_SIDE = 1500;
+  const PREVIEW_DETECT_SIDE = 800;
+  const PREVIEW_JPEG_QUALITY = 0.92;
+  const MERGE_TARGET_WIDTH = 1200;
+
+  /* ================= STATE ================= */
+  let originals = [];       // full-res dataURLs OR fallback jpeg data URLs (this is the canonical "edited" source)
+  let originalsFiles = [];  // original File objects (if available)
+  let previews = [];        // preview dataURLs
+  let uiPreview = [];       // preview after showing filters (not modifying originals until save)
+  let grayscaleFlags = [];
+  let bwFlags = [];
+  let transforms = [];
+  let currentIndex = null;
+  let processingFlags = []; // per-item processing (e.g., HEIC conversion)
+
+  /* ================= ELEMENTS ================= */
+  const nativeCam = document.getElementById('nativeCam');
+  const pick = document.getElementById('pick');
+  const tip = document.getElementById('tip');
+  const thumbs = document.getElementById('thumbs');
+  const actions = document.getElementById('actions');
+  const savePDF = document.getElementById('savePDF');
+  const saveImages = document.getElementById('saveImages');
+  const saveMerged = document.getElementById('saveMerged');
+  const imgFormat = document.getElementById('imgFormat');
+  const clearAll = document.getElementById('clearAll');
+  const moreTools = document.getElementById('moreTools');
+
+  const cropModal = document.getElementById('cropModal');
+  const cropImage = document.getElementById('cropImage');
+  const cropSVG = document.getElementById('cropSVG');
+  const cropToggle = document.getElementById('cropToggle');
+  const rotateBtn = document.getElementById('rotateBtn');
+  const applyGray = document.getElementById('applyGray');
+  const applyBW = document.getElementById('applyBW');
+  const bwRange = document.getElementById('bwRange');
+  const origBtn = document.getElementById('origBtn');
+  const saveBtn = document.getElementById('saveBtn');
+  const cropCancel = document.getElementById('cropCancel');
+  const installBtn = document.getElementById('installBtn');
+
+  const readmeContent = document.getElementById('readmeContent');
+  const readmeLangBtn = document.getElementById('readmeLangBtn');
+  const readmeEngBtn = document.getElementById('readmeEngBtn');
+
+  const globalMsg = document.getElementById('globalMsg');
+  const spinnerSaveCrop = document.getElementById('spinnerSaveCrop');
+  const spinnerSavePDF = document.getElementById('spinnerSavePDF');
+  const spinnerSaveImages = document.getElementById('spinnerSaveImages');
+  const spinnerMerge = document.getElementById('spinnerMerge');
+
+  /* ================= HELPERS ================= */
+  function el(tag, props={}){ const e=document.createElement(tag); Object.assign(e,props); return e; }
+  function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+  function showGlobalMessage(txt, show=true){
+    if(!txt || !show){ globalMsg.style.display='none'; globalMsg.innerText=''; return; }
+    globalMsg.style.display='block';
+    globalMsg.innerText = txt;
   }
-}
-setReadme('en');
-readmeEngBtn.addEventListener('click', ()=> setReadme('en'));
-readmeLangBtn.addEventListener('click', ()=> setReadme('hi'));
 
-// ==================== IMAGE LOAD/THUMBS ===================================
-function renderThumbs() {
-  thumbs.innerHTML = '';
-  for (let i = 0; i < previews.length; ++i) {
-    const d = document.createElement('div');
-    d.className = 'thumb-box';
-    let img = document.createElement('img');
-    img.className = 'thumb';
-    img.src = uiPreview[i] || previews[i] || '';
-    img.alt = 'image ' + (i+1);
-    img.tabIndex = 0;
-    img.addEventListener('click',()=> { openCropModal(i); });
-    d.appendChild(img);
-    let rm = document.createElement('button');
-    rm.className = 'remove-btn';
-    rm.innerHTML = '×';
-    rm.title = 'Remove image';
-    rm.addEventListener('click', e => { e.stopPropagation(); removeImage(i); });
-    d.appendChild(rm);
-    if (i > 0) {
-      let left = document.createElement('button');
-      left.textContent = "<";
-      left.className = 'move-left';
-      left.title = 'Move left';
-      left.addEventListener('click', e => { e.stopPropagation(); swapImages(i, i-1); });
-      d.appendChild(left);
-    }
-    if (i < previews.length - 1) {
-      let right = document.createElement('button');
-      right.textContent = ">";
-      right.className = 'move-right';
-      right.title = 'Move right';
-      right.addEventListener('click', e => { e.stopPropagation(); swapImages(i, i+1); });
-      d.appendChild(right);
-    }
-    thumbs.appendChild(d);
+  function showSpinner(spinnerEl, show){
+    if(!spinnerEl) return;
+    if(show) spinnerEl.classList.remove('hidden'); else spinnerEl.classList.add('hidden');
   }
-  actions.style.display = previews.length ? '' : 'none';
-}
 
-// ---- Helpers: swap/remove/thumb ----
-function swapImages(a, b) {
-  [originals[a], originals[b]] = [originals[b], originals[a]];
-  [previews[a], previews[b]] = [previews[b], previews[a]];
-  [uiPreview[a], uiPreview[b]] = [uiPreview[b], uiPreview[a]];
-  [grayscaleFlags[a], grayscaleFlags[b]] = [grayscaleFlags[b], grayscaleFlags[a]];
-  [bwFlags[a], bwFlags[b]] = [bwFlags[b], bwFlags[a]];
-  renderThumbs();
-}
-function removeImage(idx) {
-  originals.splice(idx,1);
-  previews.splice(idx,1);
-  uiPreview.splice(idx,1);
-  grayscaleFlags.splice(idx,1);
-  bwFlags.splice(idx,1);
-  renderThumbs();
-}
+  // load image from dataURL (normal path)
+  function loadImage(dataURL){
+    return new Promise((res,rej)=>{
+      const i=new Image();
+      i.crossOrigin='anonymous';
+      i.onload=()=>res(i);
+      i.onerror=err=>rej(err);
+      i.src=dataURL;
+    });
+  }
 
-// --- Load Image file and Correct Orientation ---
-function readFileAsDataURL(file) {
-  return new Promise(res=>{
-    const reader = new FileReader();
-    reader.onload = ()=>res(reader.result);
-    reader.readAsDataURL(file);
+  function dataURLtoBlob(dataurl){
+    const arr=dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr=atob(arr[1]);
+    let n=bstr.length;
+    const u8=new Uint8Array(n);
+    while(n--) u8[n]=bstr.charCodeAt(n);
+    return new Blob([u8],{type:mime});
+  }
+
+  /* fix exif orientation (works only on images decodable by Image) */
+  async function fixOrientationDataURL(dataURL){
+    try{
+      const base64 = dataURL.split(',')[1];
+      const binary = atob(base64);
+      const len = binary.length;
+      const buffer = new ArrayBuffer(len);
+      const view = new Uint8Array(buffer);
+      for(let i=0;i<len;i++) view[i]=binary.charCodeAt(i);
+      let orientation = 1;
+      try{ const tags = EXIF.readFromBinaryFile(view.buffer); if(tags&&tags.Orientation) orientation=tags.Orientation; }catch(e){ orientation=1; }
+      if(!orientation || orientation===1) return dataURL;
+      const img = await loadImage(dataURL);
+      const canvas = document.createElement('canvas'), ctx=canvas.getContext('2d');
+      if(orientation>4){ canvas.width=img.height; canvas.height=img.width; } else { canvas.width=img.width; canvas.height=img.height; }
+      switch(orientation){
+        case 2: ctx.translate(canvas.width,0); ctx.scale(-1,1); break;
+        case 3: ctx.translate(canvas.width,canvas.height); ctx.rotate(Math.PI); break;
+        case 4: ctx.translate(0,canvas.height); ctx.scale(1,-1); break;
+        case 5: ctx.rotate(0.5*Math.PI); ctx.scale(1,-1); ctx.drawImage(img,0,-img.height); return canvas.toDataURL('image/jpeg',0.95);
+        case 6: ctx.rotate(0.5*Math.PI); ctx.translate(0,-canvas.width); break;
+        case 7: ctx.rotate(0.5*Math.PI); ctx.translate(canvas.height,-canvas.width); ctx.scale(-1,1); break;
+        case 8: ctx.rotate(-0.5*Math.PI); ctx.translate(-canvas.height,0); break;
+        default: break;
+      }
+      ctx.drawImage(img,0,0);
+      return canvas.toDataURL('image/jpeg',0.95);
+    }catch(e){ return dataURL; }
+  }
+
+  /* make a preview (resizes) from an Image element or ImageBitmap */
+  async function makePreviewFromImageElement(img){
+    const maxSide = PREVIEW_MAX_SIDE;
+    const scale = Math.max(1, Math.ceil(Math.max(img.width,img.height)/maxSide));
+    const w = Math.floor(img.width/scale), h = Math.floor(img.height/scale);
+    const c = document.createElement('canvas'); c.width=w; c.height=h;
+    const ctx = c.getContext('2d'); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+    // white background for transparent images
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+    ctx.drawImage(img,0,0,w,h);
+    return c.toDataURL('image/jpeg',PREVIEW_JPEG_QUALITY);
+  }
+
+  async function makePreviewFromImageBitmap(bitmap){
+    const maxSide = PREVIEW_MAX_SIDE;
+    const scale = Math.max(1, Math.ceil(Math.max(bitmap.width,bitmap.height)/maxSide));
+    const w = Math.floor(bitmap.width/scale), h = Math.floor(bitmap.height/scale);
+    const c = document.createElement('canvas'); c.width=w; c.height=h;
+    const ctx = c.getContext('2d'); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+    ctx.drawImage(bitmap,0,0,w,h);
+    return c.toDataURL('image/jpeg',PREVIEW_JPEG_QUALITY);
+  }
+
+  /* high-level: generate preview from a File (tries createImageBitmap first, and heic2any for HEIC/HEIF) */
+  async function generatePreviewFromFile(file){
+    const type = (file.type||'').toLowerCase();
+    // HEIC/HEIF: use heic2any to convert to JPEG/PNG Blob first (heic2any uses WASM)
+    if(type.includes('heic') || type.includes('heif')){
+      if(typeof heic2any === 'undefined'){
+        console.warn('heic2any not loaded; cannot decode HEIC here.');
+        return null;
+      }
+      try{
+        const converted = await heic2any({blob: file, toType: "image/jpeg", quality: 0.92});
+        const blob = converted instanceof Blob ? converted : (Array.isArray(converted) ? converted[0] : converted);
+        if(blob){
+          // try createImageBitmap
+          try{
+            if(window.createImageBitmap){
+              const bm = await createImageBitmap(blob);
+              const prev = await makePreviewFromImageBitmap(bm);
+              bm.close && bm.close();
+              return { preview: prev, convertedBlob: blob };
+            }
+          }catch(e){}
+          // fallback to FileReader -> Image
+          const data = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(blob); });
+          try{ const img = await loadImage(data); const prev = await makePreviewFromImageElement(img); return { preview: prev, convertedBlob: blob, convertedDataURL: data }; }catch(e){ return { preview: data, convertedBlob: blob, convertedDataURL: data }; }
+        }
+        return null;
+      }catch(err){
+        console.warn('HEIC decode failed', err);
+        return null;
+      }
+    }
+
+    // Try createImageBitmap for many image types (AVIF included on supporting browsers)
+    try{
+      if(window.createImageBitmap){
+        const bm = await createImageBitmap(file);
+        const prev = await makePreviewFromImageBitmap(bm);
+        bm.close && bm.close();
+        return { preview: prev };
+      }
+    }catch(e){
+      // fall back
+    }
+
+    // Try FileReader + Image
+    try{
+      const data = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(file); });
+      // try to load via Image()
+      try{
+        const img = await loadImage(data);
+        // fix orientation if needed
+        const fixed = await fixOrientationDataURL(data).catch(_=>data);
+        const prev = await makePreviewFromImageElement(img).catch(_=>fixed);
+        return { preview: prev, dataURL: data };
+      }catch(e){
+        // Image failed — still return the dataURL (original) so we can save later, but preview not supported
+        return { preview: null, dataURL: data };
+      }
+    }catch(e){
+      return null;
+    }
+  }
+
+  /* ====== RENDER THUMBS ====== */
+  function renderThumbs(){
+    thumbs.innerHTML='';
+    uiPreview.forEach((src,i)=>{
+      const box = el('div',{className:'thumb-box'});
+      if(src){
+        const img = el('img',{className:'thumb',src, alt:`image ${i+1}`});
+        img.addEventListener('click', ()=> openCrop(i));
+        box.appendChild(img);
+      } else {
+        // placeholder when preview not supported
+        const ph = el('div',{className:'thumb-placeholder', innerHTML: `<div>Preview not supported<br/><small>Tap to open editor</small></div>`});
+        ph.addEventListener('click', ()=> openCrop(i));
+        box.appendChild(ph);
+      }
+      const rm = el('button',{className:'remove-btn',innerText:'×',title:'Remove'});
+      rm.addEventListener('click', ev=>{ ev.stopPropagation(); originals.splice(i,1); originalsFiles.splice(i,1); previews.splice(i,1); uiPreview.splice(i,1); grayscaleFlags.splice(i,1); bwFlags.splice(i,1); transforms.splice(i,1); processingFlags.splice(i,1); renderThumbs(); });
+      const ml = el('button',{className:'move-left',innerText:'◀',title:'Move left'}); ml.addEventListener('click', ev=>{ ev.stopPropagation(); if(i>0) swap(i,i-1); });
+      const mr = el('button',{className:'move-right',innerText:'▶',title:'Move right'}); mr.addEventListener('click', ev=>{ ev.stopPropagation(); if(i<uiPreview.length-1) swap(i,i+1); });
+      box.appendChild(rm); box.appendChild(ml); box.appendChild(mr); thumbs.appendChild(box);
+    });
+    actions.style.display = uiPreview.length ? 'block' : 'none';
+  }
+  function swap(a,b){
+    [originals[a],originals[b]]=[originals[b],originals[a]];
+    [originalsFiles[a],originalsFiles[b]]=[originalsFiles[b],originalsFiles[a]];
+    [previews[a],previews[b]]=[previews[b],previews[a]];
+    [uiPreview[a],uiPreview[b]]=[uiPreview[b],uiPreview[a]];
+    [grayscaleFlags[a],grayscaleFlags[b]]=[grayscaleFlags[b],grayscaleFlags[a]];
+    [bwFlags[a],bwFlags[b]]=[bwFlags[b],bwFlags[a]];
+    [transforms[a],transforms[b]]=[transforms[b],transforms[a]];
+    [processingFlags[a],processingFlags[b]]=[processingFlags[b],processingFlags[a]];
+    renderThumbs();
+  }
+
+  /* ====== INPUT HANDLERS ====== */
+  // use pointerdown to trigger file pick immediately on first tap (fixes some devices)
+  document.getElementById('cameraBtn').addEventListener('pointerdown', (e)=> { e.preventDefault(); nativeCam.click(); });
+  document.getElementById('galleryBtn').addEventListener('pointerdown', (e)=> { e.preventDefault(); pick.click(); });
+
+  // also support keyboard / Enter fallback
+  document.getElementById('cameraBtn').addEventListener('keydown', (e)=>{ if(e.key==='Enter') nativeCam.click(); });
+  document.getElementById('galleryBtn').addEventListener('keydown', (e)=>{ if(e.key==='Enter') pick.click(); });
+
+  async function handleFilesFromInput(fileList){
+    if(tip) tip.style.display='none';
+    showGlobalMessage('');
+    const files = Array.from(fileList||[]);
+    for(const f of files){
+      originalsFiles.push(f);
+      grayscaleFlags.push(false);
+      bwFlags.push(false);
+      transforms.push(null);
+      processingFlags.push(false);
+
+      // generate preview and potential converted blob/dataURL
+      const result = await generatePreviewFromFile(f).catch(_=>null);
+      let prev = null;
+      let convertedBlob = null;
+      let convertedDataURL = null;
+      let origDataURL = null;
+
+      if(result){
+        prev = result.preview || null;
+        convertedBlob = result.convertedBlob || null;
+        convertedDataURL = result.convertedDataURL || null;
+        if(result.dataURL) origDataURL = result.dataURL;
+      }
+
+      // HEIC/HEIF: if conversion produced blob or dataURL, use that as original (so edits affect outputs immediately)
+      const lowType = (f.type||'').toLowerCase();
+      if(lowType.includes('heic') || lowType.includes('heif')){
+        // mark processing and show message
+        processingFlags[processingFlags.length-1] = true;
+        showGlobalMessage('Please wait — processing HEIC/HEIF image...');
+        try{
+          let blob = convertedBlob;
+          if(!blob && typeof heic2any !== 'undefined'){
+            const converted = await heic2any({blob: f, toType: "image/jpeg", quality: 0.92});
+            blob = converted instanceof Blob ? converted : (Array.isArray(converted) ? converted[0] : converted);
+          }
+          if(blob){
+            // convert blob to dataURL
+            const dataURL = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(blob); });
+            originals.push(dataURL); // use converted jpeg as canonical original (so edits apply)
+            previews.push(prev || dataURL);
+            uiPreview.push(prev || dataURL);
+            // done
+          } else {
+            // fallback: store original file's dataURL if available
+            if(origDataURL){
+              originals.push(origDataURL);
+              previews.push(prev || origDataURL);
+              uiPreview.push(prev || origDataURL);
+            } else {
+              originals.push('');
+              previews.push(prev);
+              uiPreview.push(prev);
+            }
+          }
+        }catch(err){
+          console.warn('HEIC -> JPEG conversion failed', err);
+          // fallback
+          originals.push(origDataURL || prev || '');
+          previews.push(prev);
+          uiPreview.push(prev);
+        } finally {
+          // done processing
+          processingFlags[processingFlags.length-1] = false;
+          showGlobalMessage('', false);
+        }
+      } else {
+        // non-HEIC flow: prefer encoding original dataURL (if we can read file) else fallback to preview
+        if(result && result.dataURL) {
+          originals.push(result.dataURL);
+        } else {
+          // attempt to read file as dataURL for safekeeping (works for most types)
+          try{
+            const dataURL = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(f); });
+            originals.push(dataURL);
+            if(!prev) prev = await makePreviewFromImageElement(await loadImage(dataURL)).catch(_=>null);
+          }catch(e){
+            originals.push('');
+          }
+        }
+        previews.push(prev);
+        uiPreview.push(prev);
+      }
+
+      renderThumbs();
+      await sleep(40);
+    }
+  }
+
+  nativeCam.addEventListener('change', async e=>{
+    await handleFilesFromInput(e.target.files);
+    nativeCam.value='';
   });
-}
-function loadImage(src) {
-  return new Promise((res,rej)=>{
-    const img = new window.Image();
-    img.onload = ()=>res(img);
-    img.onerror = rej;
-    img.crossOrigin = 'anonymous';
-    img.src = src;
+
+  pick.addEventListener('change', async e=>{
+    await handleFilesFromInput(e.target.files);
+    pick.value='';
   });
-}
-async function makePreviewFromImageElement(img) {
-  const scale = Math.min(200 / img.width, 260 / img.height, 1);
-  let canvas = document.createElement('canvas');
-  canvas.width = Math.round(img.width * scale);
-  canvas.height = Math.round(img.height * scale);
-  let ctx = canvas.getContext('2d');
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  return canvas.toDataURL('image/jpeg', 0.8);
-}
 
-// --- More JS ... continue in part 4 ---
-</script>
-<!-- script part 3 ends; "script part 4" likhein for next chunk! -->
-// ================== FILE INPUT HANDLING ====================
-document.getElementById('cameraBtn').addEventListener('click', () => nativeCam.click());
-document.getElementById('galleryBtn').addEventListener('click', () => pick.click());
+  clearAll.addEventListener('click', ()=>{ originals=[];originalsFiles=[];previews=[];uiPreview=[];grayscaleFlags=[];bwFlags=[];transforms=[];processingFlags=[];renderThumbs(); });
 
-nativeCam.addEventListener('change', async e => {
-  if (!e.target.files.length) return;
-  await addFiles(Array.from(e.target.files));
-  nativeCam.value = '';
-});
-pick.addEventListener('change', async e => {
-  if (!e.target.files.length) return;
-  await addFiles(Array.from(e.target.files));
-  pick.value = '';
-});
+  moreTools.addEventListener('click', ()=> window.open('https://skycommunics.com','_blank'));
 
-async function addFiles(files) {
-  for (const file of files) {
-    let dataUrl = "";
-    let img;
-    if (file.type.match(/heic|heif/i)) {
-      // Convert HEIC to JPEG
-      try {
-        let blob = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.95 });
-        if (Array.isArray(blob)) blob = blob[0];
-        dataUrl = await readFileAsDataURL(blob);
-        img = await loadImage(dataUrl);
-      } catch (e) {
-        alert("This HEIC/HEIF image can't be read in this browser.");
-        continue;
+  /* ====== AUTO-DETECT ====== */
+  async function autoDetectRect(dataURL){
+    try{
+      // if preview unavailable, return full rect
+      if(!dataURL) return [0,0,0,0];
+      const img = await loadImage(dataURL);
+      const w = img.naturalWidth, h = img.naturalHeight;
+      const scale = Math.max(1, Math.floor(Math.max(w,h)/PREVIEW_DETECT_SIDE));
+      const cw = Math.floor(w/scale), ch = Math.floor(h/scale);
+      const c = document.createElement('canvas'); c.width=cw; c.height=ch;
+      const ctx = c.getContext('2d'); ctx.drawImage(img,0,0,cw,ch);
+      const id = ctx.getImageData(0,0,cw,ch).data;
+      let minX=cw, minY=ch, maxX=0, maxY=0, found=false;
+      for(let y=0;y<ch;y++){
+        for(let x=0;x<cw;x++){
+          const i=(y*cw+x)*4; const r=id[i],g=id[i+1],b=id[i+2];
+          const lum = 0.2126*r + 0.7152*g + 0.0722*b;
+          if(lum < 245){ found=true; if(x<minX) minX=x; if(x>maxX) maxX=x; if(y<minY) minY=y; if(y>maxY) maxY=y; }
+        }
+      }
+      if(!found) return [0,0,w,h];
+      const pad = Math.round(8*(Math.max(w,h)/1000));
+      const rminX = Math.max(0, Math.floor(minX*scale - pad));
+      const rminY = Math.max(0, Math.floor(minY*scale - pad));
+      const rmaxX = Math.min(w, Math.ceil((maxX+1)*scale + pad));
+      const rmaxY = Math.min(h, Math.ceil((maxY+1)*scale + pad));
+      return [rminX, rminY, rmaxX, rmaxY];
+    }catch(e){
+      return [0,0,0,0];
+    }
+  }
+
+  /* ====== HOMOGRAPHY & WARP ====== */
+  function computeHomography(srcPts,dstPts){
+    const A=[], b=[];
+    for(let i=0;i<4;i++){
+      const xs=srcPts[i].x, ys=srcPts[i].y, xd=dstPts[i].x, yd=dstPts[i].y;
+      A.push([xs,ys,1,0,0,0,-xs*xd,-ys*xd]); b.push(xd);
+      A.push([0,0,0,xs,ys,1,-xs*yd,-ys*yd]); b.push(yd);
+    }
+    const M = A.map((r,i)=>r.concat(b[i]));
+    const n=8;
+    for(let i=0;i<n;i++){
+      let max=i;
+      for(let k=i+1;k<n;k++) if(Math.abs(M[k][i])>Math.abs(M[max][i])) max=k;
+      if(Math.abs(M[max][i])<1e-12) continue;
+      [M[i],M[max]]=[M[max],M[i]];
+      const div=M[i][i];
+      for(let j=i;j<=n;j++) M[i][j]/=div;
+      for(let r=0;r<n;r++){
+        if(r===i) continue;
+        const f=M[r][i];
+        for(let c=i;c<=n;c++) M[r][c]-=f*M[i][c];
+      }
+    }
+    const h=[]; for(let i=0;i<n;i++) h.push(M[i][n]); h.push(1);
+    return [[h[0],h[1],h[2]],[h[3],h[4],h[5]],[h[6],h[7],h[8]]];
+  }
+  function invertHomography(H){
+    const a=H; const A=a[0][0],B=a[0][1],C=a[0][2],D=a[1][0],E=a[1][1],F=a[1][2],G=a[2][0],Hh=a[2][1],I=a[2][2];
+    const det = A*(E*I-F*Hh)-B*(D*I-F*G)+C*(D*Hh-E*G);
+    if(Math.abs(det)<1e-12) return null;
+    return [[(E*I-F*Hh)/det,(C*Hh-B*I)/det,(B*F-C*E)/det],[(F*G-D*I)/det,(A*I-C*G)/det,(C*D-A*F)/det],[(D*Hh-E*G)/det,(B*G-A*Hh)/det,(A*E-B*D)/det]];
+  }
+  async function warpImageWithHomography(srcDataURL, srcPts, dstW, dstH){
+    const srcImg = await loadImage(srcDataURL);
+    const H = computeHomography(srcPts, [{x:0,y:0},{x:dstW,y:0},{x:dstW,y:dstH},{x:0,y:dstH}]);
+    const Hinv = invertHomography(H); if(!Hinv) return null;
+    const out = document.createElement('canvas'); out.width=dstW; out.height=dstH; const outCtx = out.getContext('2d');
+    const sC=document.createElement('canvas'); sC.width=srcImg.width; sC.height=srcImg.height; const sCtx=sC.getContext('2d'); sCtx.drawImage(srcImg,0,0);
+    const sData = sCtx.getImageData(0,0,srcImg.width,srcImg.height);
+    const outImage = outCtx.createImageData(dstW,dstH);
+    function sample(x,y){
+      const w=srcImg.width,h=srcImg.height;
+      if(x<0||y<0||x>=w-1||y>=h-1){
+        const xi=Math.max(0,Math.min(Math.round(x),w-1)); const yi=Math.max(0,Math.min(Math.round(y),h-1));
+        const idx=(yi*w+xi)*4; return [sData.data[idx],sData.data[idx+1],sData.data[idx+2],sData.data[idx+3]];
+      }
+      const x0=Math.floor(x), y0=Math.floor(y), dx=x-x0, dy=y-y0;
+      const idx00=(y0*w+x0)*4, idx10=(y0*w+x0+1)*4, idx01=((y0+1)*w+x0)*4, idx11=((y0+1)*w+x0+1)*4;
+      const outc=[0,0,0,0];
+      for(let k=0;k<4;k++){
+        const v = sData.data[idx00+k]*(1-dx)*(1-dy) + sData.data[idx10+k]*dx*(1-dy) + sData.data[idx01+k]*(1-dx)*dy + sData.data[idx11+k]*dx*dy;
+        outc[k]=Math.round(v);
+      }
+      return outc;
+    }
+    for(let y=0;y<dstH;y++){
+      for(let x=0;x<dstW;x++){
+        const X=x,Y=y; const denom = Hinv[2][0]*X+Hinv[2][1]*Y+Hinv[2][2];
+        const sx=(Hinv[0][0]*X+Hinv[0][1]*Y+Hinv[0][2])/denom;
+        const sy=(Hinv[1][0]*X+Hinv[1][1]*Y+Hinv[1][2])/denom;
+        const pix = sample(sx,sy);
+        const idx=(y*dstW+x)*4; outImage.data[idx]=pix[0]; outImage.data[idx+1]=pix[1]; outImage.data[idx+2]=pix[2]; outImage.data[idx+3]=pix[3]===undefined?255:pix[3];
+      }
+    }
+    outCtx.putImageData(outImage,0,0);
+    return out.toDataURL('image/jpeg',0.92);
+  }
+
+  /* ====== CROP UI (SVG) ====== */
+  function clearCropSVG(){ cropSVG.innerHTML = ''; }
+  function createSVG(width,height){
+    cropSVG.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    cropSVG.style.width = cropImage.clientWidth+'px';
+    cropSVG.style.height = cropImage.clientHeight+'px';
+    clearCropSVG();
+  }
+  let P = [{x:0,y:0},{x:0,y:0},{x:0,y:0},{x:0,y:0}];
+  let svgW=0, svgH=0;
+  function drawCrop(){
+    clearCropSVG();
+    const ns = "http://www.w3.org/2000/svg";
+    const poly = document.createElementNS(ns,'polygon');
+    poly.setAttribute('points', P.map(p=>`${p.x},${p.y}`).join(' '));
+    poly.setAttribute('class','crop-polygon');
+    cropSVG.appendChild(poly);
+    for(let i=0;i<4;i++){
+      const a=P[i], b=P[(i+1)%4];
+      const line = document.createElementNS(ns,'line');
+      line.setAttribute('x1',a.x); line.setAttribute('y1',a.y); line.setAttribute('x2',b.x); line.setAttribute('y2',b.y);
+      line.setAttribute('class','crop-line'); line.setAttribute('data-edge',i);
+      cropSVG.appendChild(line);
+    }
+    for(let i=0;i<4;i++){
+      const g = document.createElementNS(ns,'g'); g.setAttribute('class','corner-group'); g.setAttribute('data-corner',i);
+      const rect = document.createElementNS(ns,'rect'); rect.setAttribute('x',P[i].x-12); rect.setAttribute('y',P[i].y-12); rect.setAttribute('width',24); rect.setAttribute('height',24); rect.setAttribute('class','corner-rect'); rect.setAttribute('rx',4);
+      const path = document.createElementNS(ns,'path'); path.setAttribute('d','M4 18 L4 6 L16 6'); path.setAttribute('stroke',getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#21d4fd'); path.setAttribute('stroke-width','3'); path.setAttribute('fill','none'); path.setAttribute('stroke-linecap','round'); path.setAttribute('stroke-linejoin','round');
+      g.appendChild(rect); g.appendChild(path);
+      cropSVG.appendChild(g);
+    }
+  }
+
+  function screenToImageCoords(clientX,clientY){
+    const svgRect = cropSVG.getBoundingClientRect();
+    const ratioX = svgW / svgRect.width;
+    const ratioY = svgH / svgRect.height;
+    const px = (clientX - svgRect.left) * ratioX;
+    const py = (clientY - svgRect.top) * ratioY;
+    return {x:px,y:py};
+  }
+  function cornerHit(x,y){ for(let i=0;i<4;i++) if(Math.hypot(x-P[i].x,y-P[i].y) < 22) return i; return -1; }
+  function lineHit(x,y){
+    for(let i=0;i<4;i++){
+      const j=(i+1)%4;
+      const a=P[i], b=P[j];
+      const A = x - a.x, B = y - a.y, C = b.x - a.x, D = b.y - a.y;
+      const dot = A*C + B*D, len2 = C*C + D*D; if(len2===0) continue;
+      const t = dot / len2; if(t<0 || t>1) continue;
+      const xx = a.x + t*C, yy = a.y + t*D; if(Math.hypot(x-xx,y-yy) < 18) return i;
+    }
+    return -1;
+  }
+  function insidePoly(x,y){
+    let cnt=0;
+    for(let i=0;i<4;i++){
+      const j=(i+1)%4; const xi=P[i].x, yi=P[i].y, xj=P[j].x, yj=P[j].y;
+      if(((yi>y)!=(yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi)) cnt++;
+    }
+    return (cnt%2)===1;
+  }
+
+  let state = { mode:null, cornerIndex:null, edgeIndex:null, start:{x:0,y:0}, origCorners:null };
+  cropSVG.addEventListener('pointerdown', (e)=>{
+    e.preventDefault();
+    const pt = screenToImageCoords(e.clientX,e.clientY);
+    const ci = cornerHit(pt.x,pt.y);
+    if(ci !== -1){ state.mode='corner'; state.cornerIndex=ci; state.origCorners = JSON.parse(JSON.stringify(P)); state.start={x:pt.x,y:pt.y}; return; }
+    const li = lineHit(pt.x,pt.y);
+    if(li !== -1){ state.mode='edge'; state.edgeIndex=li; state.origCorners = JSON.parse(JSON.stringify(P)); state.start={x:pt.x,y:pt.y}; return; }
+    if(insidePoly(pt.x,pt.y)){ state.mode='move'; state.origCorners = JSON.parse(JSON.stringify(P)); state.start={x:pt.x,y:pt.y}; return; }
+  });
+  cropSVG.addEventListener('pointermove', (e)=>{
+    if(!state.mode) return;
+    e.preventDefault();
+    const pt = screenToImageCoords(e.clientX,e.clientY);
+    if(state.mode==='corner'){
+      P[state.cornerIndex].x = Math.max(0, Math.min(svgW, pt.x));
+      P[state.cornerIndex].y = Math.max(0, Math.min(svgH, pt.y));
+      drawCrop(); return;
+    }
+    if(state.mode==='edge'){
+      const i = state.edgeIndex, j=(i+1)%4;
+      const dx = pt.x - state.start.x, dy = pt.y - state.start.y;
+      P[i].x = Math.max(0, Math.min(svgW, state.origCorners[i].x + dx));
+      P[i].y = Math.max(0, Math.min(svgH, state.origCorners[i].y + dy));
+      P[j].x = Math.max(0, Math.min(svgW, state.origCorners[j].x + dx));
+      P[j].y = Math.max(0, Math.min(svgH, state.origCorners[j].y + dy));
+      drawCrop(); return;
+    }
+    if(state.mode==='move'){
+      const dx = pt.x - state.start.x, dy = pt.y - state.start.y;
+      for(let k=0;k<4;k++){
+        P[k].x = Math.max(0, Math.min(svgW, state.origCorners[k].x + dx));
+        P[k].y = Math.max(0, Math.min(svgH, state.origCorners[k].y + dy));
+      }
+      drawCrop(); return;
+    }
+  });
+  cropSVG.addEventListener('pointerup', ()=>{ state.mode=null; state.cornerIndex=null; state.edgeIndex=null; state.origCorners=null; });
+
+  /* OPEN / CLOSE CROP behavior restored (initial label 'Crop') */
+  let cropVisible = false;
+  function showCrop(){ cropVisible = true; drawCrop(); cropSVG.style.display = "block"; cropModal.style.display='flex'; cropModal.setAttribute('aria-hidden','false'); cropToggle.innerText = 'Save Crop'; }
+  function hideCrop(){ cropVisible = false; cropSVG.style.display = "none"; cropToggle.innerText = 'Crop'; /* reset label */ }
+
+  async function openCrop(i){
+    currentIndex = i;
+    // If currently processing (HEIC convert) for this item, inform user
+    if(processingFlags[i]) showGlobalMessage('Please wait — processing HEIC/HEIF image...');
+    else showGlobalMessage('');
+
+    const previewSrc = uiPreview[i] || previews[i] || originals[i] || null;
+    if(previewSrc){
+      try{
+        cropImage.src = previewSrc;
+      }catch(e){
+        cropImage.src = '';
       }
     } else {
-      dataUrl = await readFileAsDataURL(file);
-      img = await loadImage(dataUrl);
+      cropImage.src = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800"><rect width="100%" height="100%" fill="#111"/><text x="50%" y="50%" fill="#fff" font-size="20" text-anchor="middle">Preview not supported</text></svg>');
     }
-    // Correct orientation if possible
+    cropModal.style.display = 'flex';
+    cropModal.setAttribute('aria-hidden','false');
+    cropVisible = false;
+    cropToggle.innerText = 'Crop';
+    cropImage.onload = async ()=>{
+      svgW = cropImage.naturalWidth;
+      svgH = cropImage.naturalHeight;
+      createSVG(svgW, svgH);
+      const [ax,ay,bx,by] = await autoDetectRect(previews[i] || originals[i]);
+      const safeAx = (ax||0); const safeAy = (ay||0); const safeBx = (bx||svgW); const safeBy = (by||svgH);
+      P = [{x:safeAx,y:safeAy},{x:safeBx,y:safeAy},{x:safeBx,y:safeBy},{x:safeAx,y:safeBy}];
+      drawCrop();
+      hideCrop();
+    };
+  }
+
+  function closeCropModal(){ cropModal.style.display = 'none'; cropModal.setAttribute('aria-hidden','true'); currentIndex = null; hideCrop(); showGlobalMessage('', false); }
+
+  /* Crop toggle logic: first click opens and sets label to "Save Crop", second click performs crop and closes */
+  cropToggle.addEventListener('click', async ()=>{
+    if(!Number.isInteger(currentIndex)) return;
+    // If the item is under processing (e.g., HEIC converting), block and inform
+    if(processingFlags[currentIndex]) { alert('Please wait — image is still processing (HEIC/HEIF).'); return; }
+    if(!cropVisible){
+      showCrop();
+    } else {
+      // user pressed Save Crop -> perform crop then close and reset label
+      showSpinner(spinnerSaveCrop, true);
+      await performCrop(currentIndex);
+      showSpinner(spinnerSaveCrop, false);
+      // update modal preview then close after short pause to show result
+      cropImage.src = uiPreview[currentIndex] || previews[currentIndex] || originals[currentIndex] || '';
+      cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); P=[{x:0,y:0},{x:svgW,y:0},{x:svgW,y:svgH},{x:0,y:svgH}]; drawCrop(); };
+      await sleep(220);
+      closeCropModal();
+    }
+  });
+
+  cropCancel.addEventListener('click', ()=>{ closeCropModal(); });
+
+  rotateBtn.addEventListener('click', async ()=>{
+    if(currentIndex===null) return;
+    if(processingFlags[currentIndex]) { alert('Please wait — image is still processing (HEIC/HEIF).'); return; }
+    showSpinner(spinnerSaveCrop, true);
+    // rotate the original (rasterize as needed)
+    let rotated = null;
+
+    // try rotate if we already have a dataURL (decoded)
+    if(originals[currentIndex]){
+      rotated = await rotateDataURL(originals[currentIndex]).catch(_=>null);
+    }
+
+    // if that failed, try to rasterize the original file and rotate it
+    if(!rotated && originalsFiles[currentIndex]){
+      const r = await rasterizeFileToDataURL(originalsFiles[currentIndex], 'image/jpeg', 0.92).catch(_=>null);
+      if(r) rotated = await rotateDataURL(r).catch(_=>null);
+      // if rotated from raster, set as original (we keep originals as jpeg after edits)
+      if(rotated){
+        originals[currentIndex] = rotated;
+        const prev = await makePreviewFromImageElement(await loadImage(rotated)).catch(_=>null);
+        previews[currentIndex] = prev || rotated;
+        uiPreview[currentIndex] = prev || rotated;
+        renderThumbs();
+        cropImage.src = uiPreview[currentIndex];
+        cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); P=[{x:0,y:0},{x:svgW,y:0},{x:svgW,y:svgH},{x:0,y:svgH}]; drawCrop(); hideCrop(); };
+        showSpinner(spinnerSaveCrop, false);
+        return;
+      }
+    }
+
+    if(!rotated){
+      alert('Rotate failed for this file (unsupported format).');
+      showSpinner(spinnerSaveCrop, false);
+      return;
+    }
+
+    originals[currentIndex] = rotated;
+    const prev = await makePreviewFromImageElement(await loadImage(rotated));
+    previews[currentIndex] = prev;
+    uiPreview[currentIndex] = prev;
+    renderThumbs();
+    cropImage.src = uiPreview[currentIndex];
+    cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); P=[{x:0,y:0},{x:svgW,y:0},{x:svgW,y:svgH},{x:0,y:svgH}]; drawCrop(); hideCrop(); };
+    showSpinner(spinnerSaveCrop, false);
+  });
+
+  applyGray.addEventListener('click', async ()=>{
+    if(currentIndex===null) return;
+    const i = currentIndex;
+    if(processingFlags[i]) { alert('Please wait — image is still processing (HEIC/HEIF).'); return; }
+    grayscaleFlags[i] = !grayscaleFlags[i];
+    bwFlags[i] = false;
+    if(grayscaleFlags[i] && previews[i]) uiPreview[i] = await applyGrayPreviewDataURL(previews[i]); else uiPreview[i] = previews[i];
+    cropImage.src = uiPreview[i] || originals[i] || '';
+    cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); drawCrop(); hideCrop(); };
+    renderThumbs();
+  });
+
+  applyBW.addEventListener('click', async ()=>{
+    if(currentIndex===null) return;
+    const i = currentIndex;
+    if(processingFlags[i]) { alert('Please wait — image is still processing (HEIC/HEIF).'); return; }
+    bwFlags[i] = !bwFlags[i];
+    grayscaleFlags[i] = false;
+    if(bwFlags[i] && previews[i]) uiPreview[i] = await applyBWPreviewDataURL(previews[i]); else uiPreview[i] = previews[i];
+    cropImage.src = uiPreview[i] || originals[i] || '';
+    cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); drawCrop(); hideCrop(); };
+    renderThumbs();
+  });
+
+  bwRange.addEventListener('input', async ()=>{
+    if(currentIndex===null) return;
+    const i = currentIndex;
+    if(bwFlags[i] && previews[i]){
+      uiPreview[i] = await applyBWPreviewDataURL(previews[i]);
+      cropImage.src = uiPreview[i];
+      cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); drawCrop(); hideCrop(); };
+      renderThumbs();
+    }
+  });
+
+  origBtn.addEventListener('click', ()=>{
+    if(currentIndex===null) return;
+    const i = currentIndex;
+    grayscaleFlags[i] = false; bwFlags[i] = false;
+    uiPreview[i] = previews[i];
+    cropImage.src = uiPreview[i] || originals[i] || '';
+    cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); drawCrop(); hideCrop(); };
+    renderThumbs();
+  });
+
+  saveBtn.addEventListener('click', async ()=>{
+    if(currentIndex===null) { closeCropModal(); return; }
+    if(processingFlags[currentIndex]) { alert('Please wait — image is still processing (HEIC/HEIF).'); return; }
+    if(cropVisible){
+      showSpinner(spinnerSaveCrop, true);
+      await performCrop(currentIndex);
+      showSpinner(spinnerSaveCrop, false);
+    }
+    // apply final filters and make originals canonical
+    showSpinner(spinnerSaveCrop, true);
+    await applyFinalFiltersToOriginal(currentIndex);
+    showSpinner(spinnerSaveCrop, false);
+    closeCropModal();
+  });
+
+  async function applyFinalFiltersToOriginal(i){
+    if(i===null) return;
+    let data = originals[i];
+    // If original is empty or unsupported, try to rasterize from file
+    if(!data && originalsFiles[i]){
+      data = await rasterizeFileToDataURL(originalsFiles[i], 'image/jpeg', 0.92).catch(_=>null);
+    }
+    if(!data) return;
+    if(grayscaleFlags[i]) data = await applyGrayPreviewDataURL(data);
+    if(bwFlags[i]) {
+      const k = getKFromSlider();
+      data = await applyAdaptiveBWPreviewAndHQ(data, 1000, 25, k);
+    }
+    originals[i] = data;
+    const newPrev = await makePreviewFromImageElement(await loadImage(data));
+    previews[i] = newPrev;
+    uiPreview[i] = newPrev;
+    grayscaleFlags[i] = false; bwFlags[i] = false;
+    renderThumbs();
+  }
+
+  async function applyGrayPreviewDataURL(dataURL){
+    const img = await loadImage(dataURL);
+    const c = document.createElement('canvas'); c.width=img.width; c.height=img.height;
+    const ctx = c.getContext('2d'); ctx.drawImage(img,0,0);
+    const id = ctx.getImageData(0,0,c.width,c.height), d = id.data;
+    for(let i=0;i<d.length;i+=4){
+      const g = Math.round(0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]);
+      d[i]=d[i+1]=d[i+2]=g;
+    }
+    ctx.putImageData(id,0,0);
+    return c.toDataURL('image/jpeg',0.92);
+  }
+
+  async function applyAdaptiveBWPreviewAndHQ(dataURL, smallWidth=600, neighborhood=15, k=-0.02){
+    const img = await loadImage(dataURL);
+    const sw = Math.max(100, Math.min(smallWidth, img.width));
+    const sh = Math.round(img.height * (sw / img.width));
+    const sc = document.createElement('canvas'); sc.width = sw; sc.height = sh;
+    const sctx = sc.getContext('2d'); sctx.drawImage(img,0,0,sw,sh);
+    const sdat = sctx.getImageData(0,0,sw,sh);
+    const lum = new Float32Array(sw*sh);
+    for(let y=0;y<sh;y++){
+      for(let x=0;x<sw;x++){
+        const i=(y*sw+x)*4; const r=sdat.data[i], g=sdat.data[i+1], b=sdat.data[i+2];
+        lum[y*sw+x] = 0.299*r + 0.587*g + 0.114*b;
+      }
+    }
+    const integral = new Float64Array((sw+1)*(sh+1));
+    for(let y=1;y<=sh;y++){
+      let rowSum = 0;
+      for(let x=1;x<=sw;x++){
+        rowSum += lum[(y-1)*sw + (x-1)];
+        integral[y*(sw+1) + x] = integral[(y-1)*(sw+1) + x] + rowSum;
+      }
+    }
+    const out = sctx.createImageData(sw,sh);
+    const half = Math.floor(neighborhood/2);
+    for(let y=0;y<sh;y++){
+      for(let x=0;x<sw;x++){
+        const x0 = Math.max(0, x-half), y0 = Math.max(0, y-half);
+        const x1 = Math.min(sw-1, x+half), y1 = Math.min(sh-1, y+half);
+        const A = (y0)*(sw+1) + (x0);
+        const B = (y0)*(sw+1) + (x1+1);
+        const C = (y1+1)*(sw+1) + (x0);
+        const D = (y1+1)*(sw+1) + (x1+1);
+        const sum = integral[D] - integral[B] - integral[C] + integral[A];
+        const area = (x1 - x0 + 1)*(y1 - y0 + 1);
+        const mean = sum / area;
+        const t = mean * (1 + k);
+        const v = lum[y*sw + x] < t ? 0 : 255;
+        const idx = (y*sw + x)*4;
+        out.data[idx]=out.data[idx+1]=out.data[idx+2]=v; out.data[idx+3]=255;
+      }
+    }
+    const oc = document.createElement('canvas'); oc.width = img.width; oc.height = img.height;
+    const octx = oc.getContext('2d');
+    const mapCanvas = document.createElement('canvas'); mapCanvas.width = sw; mapCanvas.height = sh;
+    mapCanvas.getContext('2d').putImageData(out,0,0);
+    octx.imageSmoothingEnabled = false;
+    octx.drawImage(mapCanvas, 0,0,sw,sh, 0,0,oc.width,oc.height);
+    return oc.toDataURL('image/jpeg',0.95);
+  }
+
+  function getKFromSlider(){
+    const v = parseInt(bwRange.value || 50,10);
+    return ((v - 50) / 50) * 0.12;
+  }
+
+  async function applyBWPreviewDataURL(dataURL){
+    try{
+      const k = getKFromSlider();
+      return await applyAdaptiveBWPreviewAndHQ(dataURL, 450, 13, k);
+    }catch(e){
+      const img = await loadImage(dataURL);
+      const c = document.createElement('canvas'); c.width=img.width; c.height=img.height;
+      const ctx = c.getContext('2d'); ctx.drawImage(img,0,0);
+      const id = ctx.getImageData(0,0,c.width,c.height), d = id.data;
+      for(let i=0;i<d.length;i+=4){
+        const lum = 0.2126*d[i]+0.7152*d[i+1]+0.0722*d[i+2];
+        const t = lum>140?255:0;
+        d[i]=d[i+1]=d[i+2]=t;
+      }
+      ctx.putImageData(id,0,0);
+      return c.toDataURL('image/jpeg',0.92);
+    }
+  }
+
+  async function rotateDataURL(dataURL){
+    try{
+      const img = await loadImage(dataURL);
+      const c = document.createElement('canvas'); c.width=img.height; c.height=img.width;
+      const ctx = c.getContext('2d'); ctx.translate(c.width/2,c.height/2); ctx.rotate(Math.PI/2); ctx.drawImage(img,-img.width/2,-img.height/2);
+      return c.toDataURL('image/jpeg',0.95);
+    }catch(e){
+      // if loadImage fails (e.g. unsupported) try null and let caller attempt rasterization
+      return null;
+    }
+  }
+
+  /* PERFORM CROP */
+  async function performCrop(idx){
+    if(idx===null || idx<0) return;
+    let origData = originals[idx] || previews[idx] || '';
+    // If no decodable original dataURL, try to rasterize from original file (use full resolution)
+    if((!origData || origData.length===0) && originalsFiles[idx]){
+      origData = await rasterizeFileToDataURL(originalsFiles[idx], 'image/jpeg', 0.95).catch(_=>null);
+      // if we got rasterized, also store as originals so further ops use it
+      if(origData){
+        originals[idx] = origData;
+      }
+    }
+    if(!origData){
+      alert('Crop not available for this file because preview/decoding is not supported in your browser.');
+      return;
+    }
+
+    const origImg = await loadImage(origData);
+    const ow = origImg.width, oh = origImg.height;
+    const prevImg = await loadImage(previews[idx] || origData).catch(_=>null);
+    if(!prevImg){
+      // if preview cannot be loaded, set simple full rect crop
+      const srcPts = [{x:0,y:0},{x:ow,y:0},{x:ow,y:oh},{x:0,y:oh}];
+      const outW = ow, outH = oh;
+      saveBtn.innerText = 'Cropping...';
+      const warped = await warpImageWithHomography(origData, srcPts, outW, outH);
+      saveBtn.innerText = 'Save';
+      if(warped){
+        originals[idx] = warped;
+        const newPrev = await makePreviewFromImageElement(await loadImage(warped));
+        previews[idx] = newPrev;
+        uiPreview[idx] = newPrev;
+        renderThumbs();
+      }
+      return;
+    }
+    const pw = prevImg.naturalWidth, ph = prevImg.naturalHeight;
+    const scaleX = ow / pw, scaleY = oh / ph;
+    const srcPts = P.map(pt=>({x: Math.round(pt.x * scaleX), y: Math.round(pt.y * scaleY)}));
+    const topW = Math.hypot(srcPts[1].x - srcPts[0].x, srcPts[1].y - srcPts[0].y);
+    const rightH = Math.hypot(srcPts[2].x - srcPts[1].x, srcPts[2].y - srcPts[1].y);
+    const outW = Math.max(200, Math.round(topW));
+    const outH = Math.max(200, Math.round(rightH));
+    saveBtn.innerText = 'Cropping...';
+    const warped = await warpImageWithHomography(origData, srcPts, outW, outH);
+    saveBtn.innerText = 'Save';
+    if(!warped){ alert('Crop failed — try again'); return; }
+    originals[idx] = warped;
+    const newPrev = await makePreviewFromImageElement(await loadImage(warped));
+    previews[idx] = newPrev;
+    uiPreview[idx] = newPrev;
+    grayscaleFlags[idx]=false; bwFlags[idx]=false;
+    renderThumbs();
+  }
+
+  /* ====== EXPORTS ====== */
+
+  // Utility: try to export a canvas or image as requested mime type (best-effort)
+  async function tryExportCanvasAs(canvas, mime, quality=0.95){
     try {
-      EXIF.getData(file, () => {
-        let orientation = EXIF.getTag(file, "Orientation");
-        if (orientation && orientation !== 1) {
-          let c = document.createElement('canvas');
-          let ctx = c.getContext('2d');
-          if ([5, 6, 7, 8].includes(orientation)) {
-            c.width = img.height;
-            c.height = img.width;
-          } else {
-            c.width = img.width;
-            c.height = img.height;
-          }
-          // Transform canvas before drawing image
-          switch (orientation) {
-            case 2: ctx.transform(-1, 0, 0, 1, c.width, 0); break;
-            case 3: ctx.transform(-1, 0, 0, -1, c.width, c.height); break;
-            case 4: ctx.transform(1, 0, 0, -1, 0, c.height); break;
-            case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
-            case 6: ctx.transform(0, 1, -1, 0, c.height, 0); break;
-            case 7: ctx.transform(0, -1, -1, 0, c.height, c.width); break;
-            case 8: ctx.transform(0, -1, 1, 0, 0, c.width); break;
-          }
-          ctx.drawImage(img, 0, 0);
-          dataUrl = c.toDataURL('image/jpeg', 0.95);
+      if(typeof canvas.toDataURL !== 'function') return null;
+      const data = canvas.toDataURL(mime, quality);
+      if(data && data.indexOf('data:')===0) return data;
+      return null;
+    } catch(e){
+      return null;
+    }
+  }
+
+  // Rasterize a File (if available) to a dataURL using createImageBitmap or fallback
+  async function rasterizeFileToDataURL(file, mime='image/jpeg', quality=0.92){
+    const type = (file.type||'').toLowerCase();
+    // HEIC: use heic2any to convert to JPEG/PNG blob first
+    if((type.includes('heic') || type.includes('heif')) && typeof heic2any !== 'undefined'){
+      try{
+        const converted = await heic2any({blob: file, toType: mime, quality: quality});
+        const blob = converted instanceof Blob ? converted : (Array.isArray(converted) ? converted[0] : converted);
+        if(blob){
+          const data = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(blob); });
+          return data;
         }
-      });
-    } catch (e) { /* ignore */ }
-    const preview = await makePreviewFromImageElement(img);
-    originals.push(dataUrl);
-    previews.push(preview);
-    uiPreview.push(preview);
-    grayscaleFlags.push(false);
-    bwFlags.push(false);
+      }catch(e){ /* continue to other attempts */ }
+    }
+
+    // AVIF: many browsers support createImageBitmap decoding AVIF; try that first
+    try{
+      if(window.createImageBitmap){
+        const bm = await createImageBitmap(file);
+        const c = document.createElement('canvas'); c.width = bm.width; c.height = bm.height;
+        const ctx = c.getContext('2d'); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+        ctx.drawImage(bm,0,0);
+        bm.close && bm.close();
+        return c.toDataURL(mime, quality);
+      }
+    }catch(e){}
+
+    // fallback to FileReader & Image
+    try{
+      const data = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(file); });
+      const img = await loadImage(data);
+      const canvas = document.createElement('canvas'); canvas.width=img.width; canvas.height=img.height;
+      const ctx = canvas.getContext('2d'); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0);
+      return canvas.toDataURL(mime, quality);
+    }catch(e){
+      return null;
+    }
   }
-  renderThumbs();
-}
 
-// Enable/disable action bar by thumbnail count
-function updateActions() {
-  actions.style.display = previews.length ? '' : 'none';
-}
-
-renderThumbs();
-
-clearAll.addEventListener('click', () => {
-  if (!confirm("Remove all images?")) return;
-  originals = []; previews = []; uiPreview = []; grayscaleFlags = []; bwFlags = [];
-  renderThumbs();
-  updateActions();
-});
-
-// ---- Continue logic (crop/modal/save/pdf etc) in script part 5 ----
-</script>
-
-// =============== CROP, EDIT, FILTER, MODAL LOGIC ===============
-
-// Helper: open crop/edit modal for an image
-function openCropModal(i) {
-  currentIndex = i;
-  cropVisible = true;
-  cropModal.style.display = "flex";
-  cropModal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-  cropImage.src = uiPreview[i] || previews[i] || originals[i] || '';
-  // Initialize crop UI, filter state etc here if needed
-}
-
-// Helper: close crop/edit modal
-function closeCropModal() {
-  cropVisible = false;
-  cropModal.style.display = "none";
-  cropModal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-  currentIndex = null;
-}
-
-// Save/crop/rotate handlers (auto-save edits on every change!)
-async function commitEdit(i, usePreview=false) {
-  if (i === null) return;
-  let data = usePreview ? uiPreview[i] : originals[i];
-  if (!data && originalsFiles[i]) {
-    data = await readFileAsDataURL(originalsFiles[i]);
+  // Build a canvas from an image dataURL
+  async function buildCanvasFromDataURL(dataURL){
+    const img = await loadImage(dataURL);
+    const c = document.createElement('canvas');
+    c.width = img.width;
+    c.height = img.height;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+    ctx.drawImage(img,0,0);
+    return c;
   }
-  if (!data) return;
-  originals[i] = data;
-  const newPrev = await makePreviewFromImageElement(await loadImage(data));
-  previews[i] = newPrev;
-  uiPreview[i] = newPrev;
-  grayscaleFlags[i] = false;
-  bwFlags[i] = false;
-  renderThumbs();
-}
 
-// Example filter actions, actual implementations will depend on your app's logic
-cropToggle.addEventListener('click', async () => {
-  if(!Number.isInteger(currentIndex)) return;
-  // You'd place your performCrop or smartCrop logic here
-  // For demonstration, we'll just mimic edit commit
-  await commitEdit(currentIndex, true);
-  cropImage.src = uiPreview[currentIndex] || previews[currentIndex] || originals[currentIndex] || '';
-  closeCropModal();
-});
-rotateBtn.addEventListener('click', async ()=> {
-  // Actual rotate logic here
-  if(currentIndex === null) return;
-  // Not actually rotating in this demo, just simulating edit save
-  await commitEdit(currentIndex, true);
-  closeCropModal();
-});
-applyGray.addEventListener('click', async ()=>{
-  if(currentIndex===null) return;
-  grayscaleFlags[currentIndex] = !grayscaleFlags[currentIndex]; bwFlags[currentIndex] = false;
-  // For demo, just pretending a gray edit is present
-  await commitEdit(currentIndex, true);
-});
-applyBW.addEventListener('click', async ()=>{
-  if(currentIndex===null) return;
-  bwFlags[currentIndex] = !bwFlags[currentIndex]; grayscaleFlags[currentIndex] = false;
-  await commitEdit(currentIndex, true);
-});
-bwRange.addEventListener('input', async ()=>{
-  if(currentIndex===null) return;
-  if(bwFlags[currentIndex]) await commitEdit(currentIndex, true);
-});
-origBtn.addEventListener('click', async ()=>{
-  if(currentIndex===null) return;
-  grayscaleFlags[currentIndex] = false; bwFlags[currentIndex] = false;
-  await commitEdit(currentIndex, false);
-});
-saveBtn.addEventListener('click', async ()=>{
-  if(currentIndex===null) { closeCropModal(); return; }
-  await commitEdit(currentIndex, true);
-  closeCropModal();
-});
-cropCancel.addEventListener('click', ()=> closeCropModal());
-
-// =============== EXPORT: PDF, IMAGES, MERGE LOGIC ===============
-savePDF.addEventListener('click', async () => {
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF({orientation:"portrait",unit:"px"});
-  for (let i = 0; i < originals.length; ++i) {
-    let img = await loadImage(originals[i]);
-    let pageWidth = pdf.internal.pageSize.getWidth();
-    let pageHeight = pdf.internal.pageSize.getHeight();
-    let ratio = Math.min(pageWidth / img.width, pageHeight / img.height);
-    let w = img.width * ratio, h = img.height * ratio;
-    if(i > 0) pdf.addPage();
-    pdf.addImage(originals[i], 'JPEG', (pageWidth-w)/2, (pageHeight-h)/2, w, h);
+  // Convert chosen format string to mime (restricted)
+  function formatToMime(format){
+    format = (format||'jpeg').toLowerCase();
+    switch(format){
+      case 'jpeg': case 'jpg': return 'image/jpeg';
+      case 'png': return 'image/png';
+      case 'webp': return 'image/webp';
+      default: return 'image/jpeg';
+    }
   }
-  pdf.save("SmartCamScanner.pdf");
-});
-saveImages.addEventListener('click', async ()=>{
-  for (let i = 0; i < originals.length; ++i) {
-    let a = document.createElement('a');
-    a.href = originals[i];
-    a.download = `scan_${i+1}.${imgFormat.value}`;
+
+  // Generic download helper
+  function downloadDataURL(dataURL, filename){
+    const a = document.createElement('a');
+    a.href = dataURL;
+    a.download = filename;
     a.click();
   }
-});
-saveMerged.addEventListener('click', async ()=>{
-  // Simple "merge all into one image" as horizontal join (for demonstration)
-  if (originals.length < 2) return alert("Add at least two images");
-  let allImgs = [];
-  let totalWidth = 0, maxHeight = 0;
-  for (let src of originals) {
-    let img = await loadImage(src);
-    allImgs.push(img);
-    totalWidth += img.width;
-    if(img.height > maxHeight) maxHeight = img.height;
-  }
-  let canvas = document.createElement('canvas');
-  canvas.width = totalWidth;
-  canvas.height = maxHeight;
-  let ctx = canvas.getContext('2d');
-  let x = 0;
-  for (let img of allImgs) {
-    ctx.drawImage(img, x, 0);
-    x += img.width;
-  }
-  let mergedUrl = canvas.toDataURL('image/jpeg', 0.92);
-  let a = document.createElement('a');
-  a.href = mergedUrl;
-  a.download = 'merged_images.jpg';
-  a.click();
-});
 
-// ---- More logic could continue (PWA install, etc.) ---
-
-</script>
-// =========== PWA INSTALL PROMPT SUPPORT ===============
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = '';
-});
-installBtn.addEventListener('click', async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const choice = await deferredPrompt.userChoice;
-    if (choice.outcome === 'accepted') {
-      installBtn.style.display = 'none';
-      deferredPrompt = null;
+  // Save images in selected format (best-effort for advanced formats)
+  saveImages.addEventListener('click', async ()=>{
+    if(!originals.length){ alert('No images'); return; }
+    showSpinner(spinnerSaveImages, true);
+    const fmt = (imgFormat.value || 'jpeg').toLowerCase();
+    const mime = formatToMime(fmt);
+    for(let i=0;i<originals.length;i++){
+      // If edited canonical original exists, use it first (this fixes bug where original input was used)
+      let outData = originals[i] || null;
+      const file = originalsFiles[i];
+      // if no edited original, attempt to rasterize source file
+      if(!outData && file){
+        outData = await rasterizeFileToDataURL(file, mime, 0.92).catch(_=>null);
+      }
+      // if still nothing, try preview
+      if(!outData) outData = previews[i] || null;
+      if(!outData){
+        alert(`Cannot export page ${i+1}: decoding not supported in this browser.`);
+        continue;
+      }
+      // If outData is dataURL: try to convert to requested mime via canvas
+      try{
+        const canvas = await buildCanvasFromDataURL(outData);
+        let out = await tryExportCanvasAs(canvas, mime, 0.95);
+        if(!out){
+          out = await tryExportCanvasAs(canvas, 'image/webp',0.95) || await tryExportCanvasAs(canvas, 'image/jpeg', 0.92);
+        }
+        if(!out) { alert(`Export failed for page ${i+1}.`); continue; }
+        // choose extension based on actual out
+        let ext = fmt;
+        const actual = out.substring(5, out.indexOf(';'));
+        if(actual.includes('jpeg')) ext = 'jpg';
+        else if(actual.includes('png')) ext = 'png';
+        else if(actual.includes('webp')) ext = 'webp';
+        downloadDataURL(out, `scan_${i+1}.${ext}`);
+        await sleep(150);
+      }catch(e){
+        console.warn('saveImages: failed for index', i, e);
+        alert(`Failed to prepare image ${i+1}; skipping.`);
+        continue;
+      }
     }
-  }
-});
+    showSpinner(spinnerSaveImages, false);
+  });
 
-// ========== OPTIONAL: MORE TOOLS DROPDOWN (place-holder) ============
-moreTools.addEventListener('click', () => {
-  alert("More tools will be coming soon!");
-});
+  // Merge all images vertically and download as jpeg (existing behavior)
+  saveMerged.addEventListener('click', async ()=>{
+    if(!originals.length) return;
+    showSpinner(spinnerMerge, true);
+    const imgs = [];
+    let maxW = 0;
+    for(let idx=0; idx<originals.length; idx++){
+      const d = originals[idx];
+      let img;
+      if(d){
+        try{ img = await loadImage(d); } catch(e){ img = null; }
+      }
+      if(!img && originalsFiles[idx]){
+        // try rasterize file
+        const r = await rasterizeFileToDataURL(originalsFiles[idx], 'image/jpeg', 0.95).catch(_=>null);
+        if(r) img = await loadImage(r).catch(_=>null);
+      }
+      if(!img) continue;
+      imgs.push(img); maxW = Math.max(maxW, img.width);
+    }
+    if(!imgs.length){ alert('No decodable images to merge'); showSpinner(spinnerMerge, false); return; }
+    const targetW = Math.min(MERGE_TARGET_WIDTH, maxW);
+    const resized = [];
+    for(const im of imgs){
+      const scaledH = Math.round(im.height * (targetW / im.width));
+      const c = document.createElement('canvas'); c.width=targetW; c.height=scaledH;
+      const ctx = c.getContext('2d'); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+      ctx.drawImage(im, 0, 0, targetW, scaledH);
+      resized.push(c);
+    }
+    let totalH = resized.reduce((s,c)=>s + c.height, 0);
+    const out = document.createElement('canvas'); out.width = targetW; out.height = totalH;
+    const outCtx = out.getContext('2d'); outCtx.fillStyle='#ffffff'; outCtx.fillRect(0,0,out.width,out.height);
+    let y=0;
+    for(const c of resized){ outCtx.drawImage(c,0,y); y+=c.height; }
+    const outData = out.toDataURL('image/jpeg',0.95);
+    const a = document.createElement('a'); a.href=outData; a.download='merged.jpg'; a.click();
+    showSpinner(spinnerMerge, false);
+  });
 
-// === UTILS: FALLBACKS ====
-window.addEventListener("DOMContentLoaded", function() {
-  // Default render in case page loads with existing data
+  // PDF export: use edited originals[] first, fallback to rasterizing files, then previews
+  savePDF.addEventListener('click', async ()=>{
+    if(!originals.length){ alert('No images'); return; }
+    showSpinner(spinnerSavePDF, true);
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit:'pt', format:'a4' });
+    const W = 595.28, H = 841.89;
+    for(let i=0;i<originals.length;i++){
+      let raster = originals[i] || null;
+      // prefer edited original; if not, rasterize file
+      if(!raster && originalsFiles[i]){
+        raster = await rasterizeFileToDataURL(originalsFiles[i], 'image/jpeg', 0.92).catch(_=>null);
+      }
+      // fallback to preview
+      if(!raster) raster = previews[i];
+      if(!raster){
+        alert(`Skipping page ${i+1}: cannot decode image for PDF.`);
+        continue;
+      }
+      const img = await loadImage(raster);
+      const ratio = Math.min(W/img.width, H/img.height);
+      const w = img.width*ratio, h = img.height*ratio;
+      const x = (W-w)/2, y = (H-h)/2;
+      if(i>0) pdf.addPage();
+      pdf.addImage(raster, 'JPEG', x, y, w, h);
+    }
+    pdf.save('document.pdf');
+    showSpinner(spinnerSavePDF, false);
+  });
+
+  /* initial render */
   renderThumbs();
-  updateActions();
-});
 
-// Utility: Sleep (for async delays)
-function sleep(ms) {
-  return new Promise(r => setTimeout(r, ms));
-}
+  /* PWA: service worker register & install prompt (unchanged) */
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+    .then(() => console.log("SW Registered"))
+    .catch(err => console.log("SW Failed", err));
+  }
 
-// ==== END OF SMART CAM SCANNER ====
+  let deferredPrompt;
+  window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = "inline-block";
+  });
 
-// All other feature extensions/helpers (smart crop, perspective fix, advanced image filters, error handling) would be coded below as your app grows!
-</script>
+  installBtn.addEventListener("click", async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      if (choice.outcome === "accepted") {
+          installBtn.style.display = "none";
+      }
+      deferredPrompt = null;
+  });
+
+  /* README language content (unchanged logic) */
+  const EN_README = `
+  <h3>How to use Smart Cam Scanner (English)</h3>
+  <ol>
+    <li>Use the <strong>Camera</strong> button to take a photo of your document. Photos appear as thumbnails on the page.</li>
+    <li>Use the <strong>Gallery</strong> button to add images saved on your device (JPEG, PNG, WEBP, HEIC/HEIF, AVIF supported for input).</li>
+    <li>Click a thumbnail to open the editor — crop, rotate, apply Grayscale or B/W preview.</li>
+    <li>Press <strong>Save</strong> inside the editor to apply changes to the original image (saved as JPEG internally if necessary).</li>
+    <li>Use <strong>Save PDF</strong> to convert all images to a single PDF. Use <strong>Merge All</strong> to download merged JPG.</li>
+    <li>Use <strong>Save Images</strong> to download individual images in JPEG/PNG/WEBP (browser-dependent support).</li>
+    <li>Feedback: <a href='mailto:skycommunics@gmail.com'>skycommunics@gmail.com</a></li>
+  </ol>
+  `;
+  const HI_README = `
+  <h3>कैसे उपयोग करें — Smart Cam Scanner (हिन्दी)</h3>
+  <ol>
+    <li><strong>Camera</strong> बटन दबाकर अपने दस्तावेज़ की तस्वीर लें — तस्वीरें थंबनेल के रूप में दिखाई देंगी।</li>
+    <li><strong>Gallery</strong> बटन से अपने डिवाइस में सेव इमेज (JPEG, PNG, WEBP, HEIC/HEIF, AVIF) जोड़ें।</li>
+    <li>थंबनेल पर क्लिक करने से एडिटर खुलेगा — क्रॉप, रोटेट, Grayscale या B/W preview लागू करें।</li>
+    <li>एडिटर में <strong>Save</strong> दबाने पर बदलाव मूल इमेज पर सेव होंगे (जरूरत होने पर JPEG में)।</li>
+    <li><strong>Save PDF</strong> दबाने पर सभी इमेज एक PDF में कनवर्ट होकर डाउनलोड होंगी। <strong>Merge All</strong> से एकल JPG बनेगा।</li>
+    <li><strong>Save Images</strong> से JPEG/PNG/WEBP में डाउनलोड कर सकते हैं (ब्राउज़र सपोर्ट पर निर्भर)।</li>
+    <li>प्रतिक्रिया के लिए मेल: <a href='mailto:skycommunics@gmail.com'>skycommunics@gmail.com</a></li>
+  </ol>
+  `;
+
+  function setReadme(lang){
+    if(lang === 'hi'){ readmeContent.innerHTML = HI_README; readmeLangBtn.style.display='none'; readmeEngBtn.style.display='inline-block'; }
+    else { readmeContent.innerHTML = EN_README; readmeEngBtn.style.display='none'; readmeLangBtn.style.display='inline-block'; }
+  }
+  // initial
+  setReadme('en');
+
+  readmeEngBtn.addEventListener('click', ()=> setReadme('en'));
+  readmeLangBtn.addEventListener('click', ()=> setReadme('hi'));
+
+  /* expose for debug */
+  window.openCrop = openCrop;
+
+  </script>
 </body>
 </html>
