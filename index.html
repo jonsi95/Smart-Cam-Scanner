@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="google-site-verification" content="9BGaHpsqevRo9JmmEwG2fD_27ZVueRyymfoPkAEz_Ec" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HKGH8FZZXH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-HKGH8FZZXH', { 'anonymize_ip': true });
+  </script>
+  <title>Smart Cam Scanner – Camera to PDF | Online Document Scanner | Free Image to PDF</title>
+  <meta name="title" content="Smart Cam Scanner – Camera to PDF | Online Document Scanner | Free Image to PDF">
+  <meta name="description" content="Free online camera-to-PDF tool with smart crop, auto-enhance, adaptive B/W, image merging, multi-format support (JPEG, PNG, WEBP, AVIF, HEIC, HEIF). Simple, fast, secure, no install needed.">
+  <meta name="keywords" content="camera to pdf, cam scanner online, free scanner tool, image to pdf, merge images, merge pdf, online document scanner, smart scanner, scan to pdf free, camera scan tool, auto crop scan, phone scanner web app, auto crop, heic to pdf, avif to pdf, webp to pdf, best online scanner">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="author" content="Smart Cam Scanner">
+  <link rel="canonical" href="https://cameratopdf.skycommunics.com/">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-512.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1a73e8">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cameratopdf.skycommunics.com/">
+  <meta property="og:title" content="Smart Cam Scanner – Free Camera to PDF Tool">
+  <meta property="og:description" content="Online smart doc scanner with auto crop, B/W mode, image merge, and full image support (JPEG, PNG, WEBP, AVIF, HEIC, HEIF). No installation required.">
+  <meta property="og:image" content="https://cameratopdf.skycommunics.com/preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Smart Cam Scanner – Free Camera to PDF Tool">
+  <meta name="twitter:description" content="Fast online camera-to-PDF scanner with smart crop, B/W, merge and multi-format support.">
+  <meta name="twitter:image" content="https://cameratopdf.skycommunics.com/preview.png">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"Smart Cam Scanner",
+    "url":"https://cameratopdf.skycommunics.com/",
+    "image":"https://cameratopdf.skycommunics.com/preview.png",
+    "applicationCategory":"UtilityApplication",
+    "operatingSystem":"Android, iOS, Web",
+    "description":"Free smart camera-to-PDF scanner with auto crop, adaptive B/W, image merging and support for JPEG, PNG, WEBP, AVIF, HEIC, HEIF formats.",
+    "browserRequirements":"Requires JavaScript",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+  }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/heic2any/dist/heic2any.min.js"></script>
+  <style>
+    :root{--accent:#21d4fd;--accent-2:#1a73e8;--danger:#ff3b3b;--muted:#6b7280;--bg:#eef2ff;--line:#ffffff;--card:#ffffff;--btn-blue:#e9f6ff;--btn-size:78px;--fb-blue:#1877f2;}
+    *{box-sizing:border-box}
+    body{font-family:system-ui,Roboto,Arial;background:linear-gradient(180deg,#eef2ff 0%, #f8fbff 100%);margin:0;padding:18px;color:#202124}
+    .container{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 30px rgba(0,0,0,0.08);max-width:980px;margin:auto}
+    .title-banner{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:12px}
+    .title-text h1{margin:0;font-size:20px;font-weight:800}
+    .title-text p{margin:2px 0 0;font-size:13px;color:#5f6368}
+    .top-row{display:flex;gap:12px;align-items:center;margin-top:10px}
+    .tool-btn{width:var(--btn-size);height:var(--btn-size);border-radius:12px;background:var(--btn-blue);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:0;box-shadow:0 6px 18px rgba(33,41,77,0.06);gap:6px;padding:8px}
+    .tool-icon{width:30px;height:30px;display:block}
+    .tool-label{font-size:12px;color:#111;text-align:center}
+    .small-btn{padding:10px 14px;border-radius:8px;border:0;cursor:pointer;font-size:14px;font-weight:600}
+    #tip{margin-top:12px;color:#444;font-size:14px}
+    .thumbs{margin-top:20px;display:flex;flex-wrap:wrap;gap:12px}
+    .thumb-box{position:relative;width:120px;background:#000;padding:6px;border-radius:10px}
+    .thumb{width:120px;height:150px;object-fit:cover;border-radius:8px;border:2px solid #111;cursor:pointer;display:block;background:#111}
+    .thumb-placeholder{width:120px;height:150px;border-radius:8px;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;padding:8px;text-align:center;font-size:12px}
+    .remove-btn{position:absolute;right:6px;top:4px;background:transparent;border:0;font-size:20px;color:var(--danger);cursor:pointer;font-weight:900}
+    .move-left,.move-right{position:absolute;bottom:6px;background:#111;color:#fff;border:0;padding:6px 8px;border-radius:6px;font-size:14px;font-weight:900;cursor:pointer}
+    .move-left{left:6px}
+    .move-right{right:6px}
+    .actions{margin-top:18px;display:none}
+    .actions select{padding:8px;border-radius:8px;font-size:14px}
+    #cropModal{position:fixed;inset:0;background:rgba(0,0,0,0.88);display:none;align-items:center;justify-content:center;z-index:9999}
+    #cropBox{background:#fff;padding:12px;border-radius:12px;max-width:95vw;max-height:92vh;overflow:auto}
+    .crop-stage{position:relative;display:inline-block;background:#000;border-radius:8px;padding:8px;touch-action:none}
+    #cropImage{display:block;max-width:82vw;max-height:72vh;background:#000}
+    #cropSVG{position:absolute;left:0;top:0;pointer-events:auto;overflow:visible}
+    .corner-rect{fill:white;stroke:var(--accent);stroke-width:3;cursor:grab;opacity:1}
+    .crop-line{stroke:var(--line);stroke-width:2;pointer-events:auto}
+    .crop-polygon{fill:rgba(255,255,255,0.06);stroke:rgba(255,255,255,0.95);stroke-width:2;pointer-events:auto}
+    .crop-toolbar{margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .bw-control{display:flex;align-items:center;gap:8px}
+    .small-note{font-size:13px;color:#666;margin-top:8px}
+    footer{max-width:980px;margin:18px auto 40px;padding:12px;color:#666;font-size:13px;text-align:center}
+    footer a{color:var(--accent)}
+    .fb-feedback{display:inline-block;padding:8px 12px;border-radius:8px;background:var(--fb-blue);color:#fff;text-decoration:none}
+    .badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .badge{padding:6px 10px;border-radius:999px;background:#f3f6ff;border:1px solid #e6f0ff;color:#0b69c8;font-weight:700;font-size:13px}
+    @media(max-width:600px){
+      :root{--btn-size:68px}
+      .tool-label{font-size:11px}
+      .tool-icon{width:28px;height:28px}
+      .thumb{width:98px;height:130px}
+      .thumb-placeholder{width:98px;height:130px}
+    }
+  </style>
+</head>
+<body>
+<!-- FULL working UI is long and doesn't fit in a single chat, but you can simply use this file from the official source: -->
+<!-- https://raw.githubusercontent.com/skh404/SmartCamScanner/main/public/index.html -->
+<!-- Or say "script part 1" and I'll paste all JS step by step right here (no coding needed, just copy-paste the parts in order). -->
+</body>
+</html>
