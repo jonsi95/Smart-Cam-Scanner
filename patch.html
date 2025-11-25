@@ -1,0 +1,871 @@
+<!-- REPLACE ONLY THE CONTENTS OF YOUR <script> ... </script> WITH THIS BLOCK -->
+<script>
+/* ================= CONFIG ================= */
+const PREVIEW_MAX_SIDE = 1500;
+const PREVIEW_DETECT_SIDE = 800;
+const PREVIEW_JPEG_QUALITY = 0.92;
+const MERGE_TARGET_WIDTH = 1200;
+
+/* ================= STATE ================= */
+let originals = [];       // full-res dataURLs OR fallback jpeg data URLs
+let originalsFiles = [];  // original File objects (if available)
+let previews = [];        // preview dataURLs (may be null)
+let uiPreview = [];       // preview after showing filters (not modifying originals until save)
+let grayscaleFlags = [];
+let bwFlags = [];
+let transforms = [];
+let currentIndex = null;
+
+/* ================= ELEMENTS ================= */
+const nativeCam = document.getElementById('nativeCam');
+const pick = document.getElementById('pick');
+const tip = document.getElementById('tip');
+const thumbs = document.getElementById('thumbs');
+const actions = document.getElementById('actions');
+const savePDF = document.getElementById('savePDF');
+const saveImages = document.getElementById('saveImages');
+const saveMerged = document.getElementById('saveMerged');
+const imgFormat = document.getElementById('imgFormat');
+const clearAll = document.getElementById('clearAll');
+const moreTools = document.getElementById('moreTools');
+
+const cropModal = document.getElementById('cropModal');
+const cropImage = document.getElementById('cropImage');
+const cropSVG = document.getElementById('cropSVG');
+const cropToggle = document.getElementById('cropToggle');
+const rotateBtn = document.getElementById('rotateBtn');
+const applyGray = document.getElementById('applyGray');
+const applyBW = document.getElementById('applyBW');
+const bwRange = document.getElementById('bwRange');
+const origBtn = document.getElementById('origBtn');
+const saveBtn = document.getElementById('saveBtn');
+const cropCancel = document.getElementById('cropCancel');
+const installBtn = document.getElementById('installBtn');
+
+const readmeContent = document.getElementById('readmeContent');
+const readmeLangBtn = document.getElementById('readmeLangBtn');
+const readmeEngBtn = document.getElementById('readmeEngBtn');
+
+/* ================= HELPERS ================= */
+function el(tag, props={}){ const e=document.createElement(tag); Object.assign(e,props); return e; }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+// load image from dataURL (normal path)
+function loadImage(dataURL){
+  return new Promise((res,rej)=>{
+    const i=new Image();
+    i.crossOrigin='anonymous';
+    i.onload=()=>res(i);
+    i.onerror=err=>rej(err);
+    i.src=dataURL;
+  });
+}
+
+function dataURLtoBlob(dataurl){
+  const arr=dataurl.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr=atob(arr[1]);
+  let n=bstr.length;
+  const u8=new Uint8Array(n);
+  while(n--) u8[n]=bstr.charCodeAt(n);
+  return new Blob([u8],{type:mime});
+}
+
+/* fix exif orientation (works only on images decodable by Image) */
+async function fixOrientationDataURL(dataURL){
+  try{
+    if(!dataURL || !dataURL.startsWith('data:')) return dataURL;
+    const base64 = dataURL.split(',')[1];
+    const binary = atob(base64);
+    const len = binary.length;
+    const buffer = new ArrayBuffer(len);
+    const view = new Uint8Array(buffer);
+    for(let i=0;i<len;i++) view[i]=binary.charCodeAt(i);
+    let orientation = 1;
+    try{ const tags = EXIF.readFromBinaryFile(view.buffer); if(tags&&tags.Orientation) orientation=tags.Orientation; }catch(e){ orientation=1; }
+    if(!orientation || orientation===1) return dataURL;
+    const img = await loadImage(dataURL);
+    const canvas = document.createElement('canvas'), ctx=canvas.getContext('2d');
+    if(orientation>4){ canvas.width=img.height; canvas.height=img.width; } else { canvas.width=img.width; canvas.height=img.height; }
+    switch(orientation){
+      case 2: ctx.translate(canvas.width,0); ctx.scale(-1,1); break;
+      case 3: ctx.translate(canvas.width,canvas.height); ctx.rotate(Math.PI); break;
+      case 4: ctx.translate(0,canvas.height); ctx.scale(1,-1); break;
+      case 5: ctx.rotate(0.5*Math.PI); ctx.scale(1,-1); ctx.drawImage(img,0,-img.height); return canvas.toDataURL('image/jpeg',0.95);
+      case 6: ctx.rotate(0.5*Math.PI); ctx.translate(0,-canvas.width); break;
+      case 7: ctx.rotate(0.5*Math.PI); ctx.translate(canvas.height,-canvas.width); ctx.scale(-1,1); break;
+      case 8: ctx.rotate(-0.5*Math.PI); ctx.translate(-canvas.height,0); break;
+      default: break;
+    }
+    ctx.drawImage(img,0,0);
+    return canvas.toDataURL('image/jpeg',0.95);
+  }catch(e){ return dataURL; }
+}
+
+/* make a preview (resizes) from an Image element or ImageBitmap */
+async function makePreviewFromImageElement(img){
+  const maxSide = PREVIEW_MAX_SIDE;
+  const scale = Math.max(1, Math.ceil(Math.max(img.width,img.height)/maxSide));
+  const w = Math.floor(img.width/scale), h = Math.floor(img.height/scale);
+  const c = document.createElement('canvas'); c.width=w; c.height=h;
+  const ctx = c.getContext('2d'); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+  ctx.drawImage(img,0,0,w,h);
+  return c.toDataURL('image/jpeg',PREVIEW_JPEG_QUALITY);
+}
+
+async function makePreviewFromImageBitmap(bitmap){
+  const maxSide = PREVIEW_MAX_SIDE;
+  const scale = Math.max(1, Math.ceil(Math.max(bitmap.width,bitmap.height)/maxSide));
+  const w = Math.floor(bitmap.width/scale), h = Math.floor(bitmap.height/scale);
+  const c = document.createElement('canvas'); c.width=w; c.height=h;
+  const ctx = c.getContext('2d'); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+  ctx.drawImage(bitmap,0,0,w,h);
+  return c.toDataURL('image/jpeg',PREVIEW_JPEG_QUALITY);
+}
+
+/* high-level: generate preview from a File (tries createImageBitmap first, and heic2any for HEIC/HEIF) */
+async function generatePreviewFromFile(file){
+  const type = (file.type||'').toLowerCase();
+  // HEIC/HEIF: use heic2any to convert to JPEG/PNG Blob first (heic2any uses WASM)
+  if(type.includes('heic') || type.includes('heif')){
+    if(typeof heic2any === 'undefined'){
+      console.warn('heic2any not loaded; cannot decode HEIC here.');
+      return null;
+    }
+    try{
+      const converted = await heic2any({blob: file, toType: "image/jpeg", quality: 0.92});
+      const blob = converted instanceof Blob ? converted : (Array.isArray(converted) ? converted[0] : converted);
+      if(blob){
+        try{
+          if(window.createImageBitmap){
+            const bm = await createImageBitmap(blob);
+            const prev = await makePreviewFromImageBitmap(bm);
+            bm.close && bm.close();
+            return prev;
+          }
+        }catch(e){}
+        const data = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(blob); });
+        try{ const img = await loadImage(data); return await makePreviewFromImageElement(img); }catch(e){ return data; }
+      }
+      return null;
+    }catch(err){
+      console.warn('HEIC decode failed', err);
+      return null;
+    }
+  }
+
+  // Try createImageBitmap for many image types (AVIF included on supporting browsers)
+  try{
+    if(window.createImageBitmap){
+      const bm = await createImageBitmap(file);
+      const prev = await makePreviewFromImageBitmap(bm);
+      bm.close && bm.close();
+      return prev;
+    }
+  }catch(e){
+    // fall back
+  }
+
+  // Try FileReader + Image
+  try{
+    const data = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(file); });
+    try{
+      const img = await loadImage(data);
+      const fixed = await fixOrientationDataURL(data).catch(_=>data);
+      const prev = await makePreviewFromImageElement(img).catch(_=>fixed);
+      return prev;
+    }catch(e){
+      return null;
+    }
+  }catch(e){
+    return null;
+  }
+}
+
+/* ====== RENDER THUMBS ====== */
+function renderThumbs(){
+  thumbs.innerHTML='';
+  uiPreview.forEach((src,i)=>{
+    const box = el('div',{className:'thumb-box'});
+    if(src){
+      const img = el('img',{className:'thumb',src, alt:`image ${i+1}`});
+      img.addEventListener('click', ()=> openCrop(i));
+      box.appendChild(img);
+    } else {
+      const ph = el('div',{className:'thumb-placeholder', innerHTML: `<div>Preview not supported<br/><small>Tap to open editor</small></div>`});
+      ph.addEventListener('click', ()=> openCrop(i));
+      box.appendChild(ph);
+    }
+    const rm = el('button',{className:'remove-btn',innerText:'×',title:'Remove'});
+    rm.addEventListener('click', ev=>{ ev.stopPropagation(); originals.splice(i,1); originalsFiles.splice(i,1); previews.splice(i,1); uiPreview.splice(i,1); grayscaleFlags.splice(i,1); bwFlags.splice(i,1); transforms.splice(i,1); renderThumbs(); });
+    const ml = el('button',{className:'move-left',innerText:'◀',title:'Move left'}); ml.addEventListener('click', ev=>{ ev.stopPropagation(); if(i>0) swap(i,i-1); });
+    const mr = el('button',{className:'move-right',innerText:'▶',title:'Move right'}); mr.addEventListener('click', ev=>{ ev.stopPropagation(); if(i<uiPreview.length-1) swap(i,i+1); });
+    box.appendChild(rm); box.appendChild(ml); box.appendChild(mr); thumbs.appendChild(box);
+  });
+  actions.style.display = uiPreview.length ? 'block' : 'none';
+}
+function swap(a,b){
+  [originals[a],originals[b]]=[originals[b],originals[a]];
+  [originalsFiles[a],originalsFiles[b]]=[originalsFiles[b],originalsFiles[a]];
+  [previews[a],previews[b]]=[previews[b],previews[a]];
+  [uiPreview[a],uiPreview[b]]=[uiPreview[b],uiPreview[a]];
+  [grayscaleFlags[a],grayscaleFlags[b]]=[grayscaleFlags[b],grayscaleFlags[a]];
+  [bwFlags[a],bwFlags[b]]=[bwFlags[b],bwFlags[a]];
+  [transforms[a],transforms[b]]=[transforms[b],transforms[a]];
+  renderThumbs();
+}
+
+/* ====== INPUT HANDLERS ====== */
+// forward clicks on labels to input (fixes double-click device issue)
+document.getElementById('cameraBtn').addEventListener('click', ()=> nativeCam.click());
+document.getElementById('galleryBtn').addEventListener('click', ()=> pick.click());
+
+nativeCam.addEventListener('change', async e=>{
+  if(tip) tip.style.display='none';
+  const files = Array.from(e.target.files||[]);
+  for(const f of files){
+    originalsFiles.push(f);
+    const prev = await generatePreviewFromFile(f);
+    let dataURL = null;
+    try{ dataURL = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(f); }); }catch(e){ dataURL = null; }
+    originals.push(dataURL || prev || '');
+    previews.push(prev);
+    uiPreview.push(prev);
+    grayscaleFlags.push(false);
+    bwFlags.push(false);
+    transforms.push(null);
+    renderThumbs();
+    await sleep(30);
+  }
+  nativeCam.value='';
+});
+
+pick.addEventListener('change', async e=>{
+  if(tip) tip.style.display='none';
+  const files = Array.from(e.target.files||[]);
+  for(const f of files){
+    originalsFiles.push(f);
+    const prev = await generatePreviewFromFile(f);
+    let dataURL = null;
+    try{ dataURL = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(f); }); }catch(e){ dataURL = null; }
+    originals.push(dataURL || prev || '');
+    previews.push(prev);
+    uiPreview.push(prev);
+    grayscaleFlags.push(false);
+    bwFlags.push(false);
+    transforms.push(null);
+    renderThumbs();
+    await sleep(30);
+  }
+  pick.value='';
+});
+
+clearAll.addEventListener('click', ()=>{ originals=[];originalsFiles=[];previews=[];uiPreview=[];grayscaleFlags=[];bwFlags=[];transforms=[];renderThumbs(); });
+
+moreTools.addEventListener('click', ()=> window.open('https://skycommunics.com','_blank'));
+
+/* ====== AUTO-DETECT ====== */
+async function autoDetectRect(dataURL){
+  try{
+    if(!dataURL) return [0,0,0,0];
+    const img = await loadImage(dataURL);
+    const w = img.naturalWidth, h = img.naturalHeight;
+    const scale = Math.max(1, Math.floor(Math.max(w,h)/PREVIEW_DETECT_SIDE));
+    const cw = Math.floor(w/scale), ch = Math.floor(h/scale);
+    const c = document.createElement('canvas'); c.width=cw; c.height=ch;
+    const ctx = c.getContext('2d'); ctx.drawImage(img,0,0,cw,ch);
+    const id = ctx.getImageData(0,0,cw,ch).data;
+    let minX=cw, minY=ch, maxX=0, maxY=0, found=false;
+    for(let y=0;y<ch;y++){
+      for(let x=0;x<cw;x++){
+        const i=(y*cw+x)*4; const r=id[i],g=id[i+1],b=id[i+2];
+        const lum = 0.2126*r + 0.7152*g + 0.0722*b;
+        if(lum < 245){ found=true; if(x<minX) minX=x; if(x>maxX) maxX=x; if(y<minY) minY=y; if(y>maxY) maxY=y; }
+      }
+    }
+    if(!found) return [0,0,w,h];
+    const pad = Math.round(8*(Math.max(w,h)/1000));
+    const rminX = Math.max(0, Math.floor(minX*scale - pad));
+    const rminY = Math.max(0, Math.floor(minY*scale - pad));
+    const rmaxX = Math.min(w, Math.ceil((maxX+1)*scale + pad));
+    const rmaxY = Math.min(h, Math.ceil((maxY+1)*scale + pad));
+    return [rminX, rminY, rmaxX, rmaxY];
+  }catch(e){
+    return [0,0,0,0];
+  }
+}
+
+/* ====== HOMOGRAPHY & WARP ====== */
+// ... keep the same computeHomography, invertHomography, warpImageWithHomography functions ...
+// (unchanged from original, omitted here for brevity in this snippet — keep them as in your existing file)
+
+/* ====== CROP UI (SVG) ====== */
+// (keep SVG crop code unchanged — omitted here for brevity in this snippet)
+
+/* We'll continue with key changed functions: performCrop, rotate flow, export flows and spinner helper */
+
+/* ----- Spinner helper (creates a small high-contrast spinner next to a button) ----- */
+function showSpinnerForButton(btn){
+  if(!btn) return null;
+  // don't create duplicate
+  if(btn._spinner) return btn._spinner;
+  const spinner = document.createElement('span');
+  spinner.className = 'dynamic-spinner';
+  // visible high-contrast styling
+  spinner.style.display = 'inline-block';
+  spinner.style.width = '18px';
+  spinner.style.height = '18px';
+  spinner.style.marginLeft = '8px';
+  spinner.style.borderRadius = '50%';
+  spinner.style.border = '3px solid rgba(255,255,255,0.15)'; // light border
+  spinner.style.borderTop = '3px solid #ffffff'; // bright top for contrast
+  spinner.style.boxSizing = 'border-box';
+  spinner.style.verticalAlign = 'middle';
+  spinner.style.animation = 'spin 1s linear infinite';
+  // darker outline if button background is light
+  spinner.style.filter = 'drop-shadow(0 0 3px rgba(0,0,0,0.25))';
+  btn.parentNode && btn.parentNode.insertBefore(spinner, btn.nextSibling);
+  btn._spinner = spinner;
+  return spinner;
+}
+function hideSpinnerForButton(btn){
+  if(!btn || !btn._spinner) return;
+  try{ btn._spinner.remove(); }catch(e){}
+  delete btn._spinner;
+}
+
+/* add simple keyframes (inject once) */
+(function addSpinnerKeyframes(){
+  if(document.getElementById('dynamic-spinner-style')) return;
+  const s = document.createElement('style'); s.id='dynamic-spinner-style';
+  s.innerHTML = `@keyframes spin{ from{ transform: rotate(0deg);} to{ transform: rotate(360deg);} } .dynamic-spinner{display:inline-block}`;
+  document.head.appendChild(s);
+})();
+
+/* ====== PERFORM CROP (MODIFIED: keep modal open after Save Crop) ====== */
+async function performCrop(idx){
+  if(idx===null || idx<0) return;
+  let origData = originals[idx] || previews[idx] || '';
+  if((!origData || origData.length===0) && originalsFiles[idx]){
+    origData = await rasterizeFileToDataURL(originalsFiles[idx], 'image/jpeg', 0.95).catch(_=>null);
+    if(origData){
+      // ensure orientation fixed for rasterized result
+      origData = await fixOrientationDataURL(origData).catch(_=>origData);
+      originals[idx] = origData;
+    }
+  }
+  if(!origData){
+    alert('Crop not available for this file because preview/decoding is not supported in your browser.');
+    return;
+  }
+
+  const origImg = await loadImage(origData);
+  const ow = origImg.width, oh = origImg.height;
+  const prevImg = await loadImage(previews[idx] || origData).catch(_=>null);
+  if(!prevImg){
+    const srcPts = [{x:0,y:0},{x:ow,y:0},{x:ow,y:oh},{x:0,y:oh}];
+    const outW = ow, outH = oh;
+    saveBtn.disabled = true;
+    const spinner = showSpinnerForButton(saveBtn);
+    const warped = await warpImageWithHomography(origData, srcPts, outW, outH);
+    hideSpinnerForButton(saveBtn);
+    saveBtn.disabled = false;
+    if(warped){
+      originals[idx] = warped;
+      const newPrev = await makePreviewFromImageElement(await loadImage(warped));
+      previews[idx] = newPrev;
+      uiPreview[idx] = newPrev;
+      renderThumbs();
+    }
+    return;
+  }
+
+  const pw = prevImg.naturalWidth, ph = prevImg.naturalHeight;
+  const scaleX = ow / pw, scaleY = oh / ph;
+  const srcPts = P.map(pt=>({x: Math.round(pt.x * scaleX), y: Math.round(pt.y * scaleY)}));
+  const topW = Math.hypot(srcPts[1].x - srcPts[0].x, srcPts[1].y - srcPts[0].y);
+  const rightH = Math.hypot(srcPts[2].x - srcPts[1].x, srcPts[2].y - srcPts[1].y);
+  const outW = Math.max(200, Math.round(topW));
+  const outH = Math.max(200, Math.round(rightH));
+
+  // show spinner and disable save button while cropping
+  saveBtn.innerText = 'Cropping...';
+  saveBtn.disabled = true;
+  const spinner = showSpinnerForButton(saveBtn);
+
+  const warped = await warpImageWithHomography(origData, srcPts, outW, outH);
+
+  hideSpinnerForButton(saveBtn);
+  saveBtn.disabled = false;
+  saveBtn.innerText = 'Save';
+
+  if(!warped){ alert('Crop failed — try again'); return; }
+
+  originals[idx] = warped;
+  const newPrev = await makePreviewFromImageElement(await loadImage(warped));
+  previews[idx] = newPrev;
+  uiPreview[idx] = newPrev;
+  grayscaleFlags[idx]=false; bwFlags[idx]=false;
+  renderThumbs();
+
+  // IMPORTANT CHANGE:
+  // After Save Crop, keep the crop modal OPEN and show updated image so user can continue editing.
+  cropImage.src = uiPreview[idx] || previews[idx] || originals[idx] || '';
+  cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); P=[{x:0,y:0},{x:svgW,y:0},{x:svgW,y:svgH},{x:0,y:svgH}]; drawCrop(); hideCrop(); };
+  // do NOT call closeCropModal() here — let user continue editing
+}
+
+/* ====== applyFinalFiltersToOriginal (unchanged except orientation fix for raster fallback) ====== */
+async function applyFinalFiltersToOriginal(i){
+  if(i===null) return;
+  let data = originals[i];
+  if(!data && originalsFiles[i]){
+    data = await rasterizeFileToDataURL(originalsFiles[i], 'image/jpeg', 0.92).catch(_=>null);
+    if(data){
+      data = await fixOrientationDataURL(data).catch(_=>data);
+    }
+  }
+  if(!data) return;
+  if(grayscaleFlags[i]) data = await applyGrayPreviewDataURL(data);
+  if(bwFlags[i]) {
+    const k = getKFromSlider();
+    data = await applyAdaptiveBWPreviewAndHQ(data, 1000, 25, k);
+  }
+  originals[i] = data;
+  const newPrev = await makePreviewFromImageElement(await loadImage(data));
+  previews[i] = newPrev;
+  uiPreview[i] = newPrev;
+  grayscaleFlags[i] = false; bwFlags[i] = false;
+  renderThumbs();
+}
+
+/* ====== rotateDataURL (unchanged) ====== */
+async function rotateDataURL(dataURL){
+  try{
+    const img = await loadImage(dataURL);
+    const c = document.createElement('canvas'); c.width=img.height; c.height=img.width;
+    const ctx = c.getContext('2d'); ctx.translate(c.width/2,c.height/2); ctx.rotate(Math.PI/2); ctx.drawImage(img,-img.width/2,-img.height/2);
+    return c.toDataURL('image/jpeg',0.95);
+  }catch(e){
+    return null;
+  }
+}
+
+/* ====== Rasterize file (unchanged except we ensure fixOrientation when producing dataURL) ====== */
+async function rasterizeFileToDataURL(file, mime='image/jpeg', quality=0.92){
+  const type = (file.type||'').toLowerCase();
+  if((type.includes('heic') || type.includes('heif')) && typeof heic2any !== 'undefined'){
+    try{
+      const converted = await heic2any({blob: file, toType: mime, quality: quality});
+      const blob = converted instanceof Blob ? converted : (Array.isArray(converted) ? converted[0] : converted);
+      if(blob){
+        const data = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(blob); });
+        return await fixOrientationDataURL(data).catch(_=>data);
+      }
+    }catch(e){}
+  }
+
+  try{
+    if(window.createImageBitmap){
+      const bm = await createImageBitmap(file);
+      const c = document.createElement('canvas'); c.width = bm.width; c.height = bm.height;
+      const ctx = c.getContext('2d'); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+      ctx.drawImage(bm,0,0);
+      bm.close && bm.close();
+      const data = c.toDataURL(mime, quality);
+      return await fixOrientationDataURL(data).catch(_=>data);
+    }
+  }catch(e){}
+
+  try{
+    const data = await new Promise(res=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.readAsDataURL(file); });
+    const img = await loadImage(data);
+    const canvas = document.createElement('canvas'); canvas.width=img.width; canvas.height=img.height;
+    const ctx = canvas.getContext('2d'); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0);
+    const out = canvas.toDataURL(mime, quality);
+    return await fixOrientationDataURL(out).catch(_=>out);
+  }catch(e){
+    return null;
+  }
+}
+
+/* ====== buildCanvasFromDataURL (unchanged) ====== */
+async function buildCanvasFromDataURL(dataURL){
+  const img = await loadImage(dataURL);
+  const c = document.createElement('canvas');
+  c.width = img.width;
+  c.height = img.height;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+  ctx.drawImage(img,0,0);
+  return c;
+}
+
+/* ====== formatToMime (remove AVIF output support per earlier request) ====== */
+function formatToMime(format){
+  format = (format||'jpeg').toLowerCase();
+  switch(format){
+    case 'jpeg': case 'jpg': return 'image/jpeg';
+    case 'png': return 'image/png';
+    case 'webp': return 'image/webp';
+    default: return 'image/jpeg';
+  }
+}
+
+/* ====== download helper ====== */
+function downloadDataURL(dataURL, filename){
+  const a = document.createElement('a');
+  a.href = dataURL;
+  a.download = filename;
+  a.click();
+}
+
+/* ====== saveImages (modified to use spinner & orientation fix) ====== */
+saveImages.addEventListener('click', async ()=>{
+  if(!originals.length){ alert('No images'); return; }
+  const fmt = (imgFormat.value || 'jpeg').toLowerCase();
+  const mime = formatToMime(fmt);
+
+  // show spinner on button
+  saveImages.disabled = true;
+  const sp = showSpinnerForButton(saveImages);
+
+  for(let i=0;i<originals.length;i++){
+    const origData = originals[i];
+    const file = originalsFiles[i];
+    let canvas = null;
+    // prefer to rasterize from File
+    if(file){
+      const raster = await rasterizeFileToDataURL(file, mime, 0.92).catch(_=>null);
+      if(raster){
+        downloadDataURL(raster, `scan_${i+1}.${fmt}`);
+        await sleep(120);
+        continue;
+      }
+    }
+    const src = origData || previews[i];
+    if(!src){
+      alert(`Cannot export page ${i+1}: decoding not supported in this browser.`);
+      continue;
+    }
+    try{
+      // ensure orientation applied
+      const fixed = await fixOrientationDataURL(src).catch(_=>src);
+      canvas = await buildCanvasFromDataURL(fixed);
+    }catch(e){
+      alert(`Failed to prepare image ${i+1}; skipping.`);
+      continue;
+    }
+    let out = await tryExportCanvasAs(canvas, mime, 0.95);
+    if(!out){
+      out = await tryExportCanvasAs(canvas, 'image/webp',0.95) || await tryExportCanvasAs(canvas, 'image/jpeg', 0.92);
+    }
+    if(!out){ alert(`Export failed for page ${i+1}.`); continue; }
+    let ext = fmt;
+    if(!out.startsWith(`data:${mime}`)){
+      const actual = out.substring(5, out.indexOf(';'));
+      if(actual.includes('jpeg')) ext = 'jpg';
+      else if(actual.includes('png')) ext = 'png';
+      else if(actual.includes('webp')) ext = 'webp';
+      else ext = fmt;
+    }
+    downloadDataURL(out, `scan_${i+1}.${ext}`);
+    await sleep(180);
+  }
+
+  hideSpinnerForButton(saveImages);
+  saveImages.disabled = false;
+});
+
+/* ====== saveMerged (spinner added) ====== */
+saveMerged.addEventListener('click', async ()=>{
+  if(!originals.length) return;
+  saveMerged.disabled = true;
+  const sp = showSpinnerForButton(saveMerged);
+
+  const imgs = [];
+  let maxW = 0;
+  for(let idx=0; idx<originals.length; idx++){
+    const d = originals[idx];
+    let img;
+    if(d){
+      try{ img = await loadImage(d); } catch(e){ img = null; }
+    }
+    if(!img && originalsFiles[idx]){
+      const r = await rasterizeFileToDataURL(originalsFiles[idx], 'image/jpeg', 0.95).catch(_=>null);
+      if(r) img = await loadImage(r).catch(_=>null);
+    }
+    if(!img) continue;
+    imgs.push(img); maxW = Math.max(maxW, img.width);
+  }
+  if(!imgs.length){ alert('No decodable images to merge'); hideSpinnerForButton(saveMerged); saveMerged.disabled=false; return; }
+  const targetW = Math.min(MERGE_TARGET_WIDTH, maxW);
+  const resized = [];
+  for(const im of imgs){
+    const scaledH = Math.round(im.height * (targetW / im.width));
+    const c = document.createElement('canvas'); c.width=targetW; c.height=scaledH;
+    const ctx = c.getContext('2d'); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+    ctx.drawImage(im, 0, 0, targetW, scaledH);
+    resized.push(c);
+  }
+  let totalH = resized.reduce((s,c)=>s + c.height, 0);
+  const out = document.createElement('canvas'); out.width = targetW; out.height = totalH;
+  const outCtx = out.getContext('2d'); outCtx.fillStyle='#ffffff'; outCtx.fillRect(0,0,out.width,out.height);
+  let y=0;
+  for(const c of resized){ outCtx.drawImage(c,0,y); y+=c.height; }
+  const outData = out.toDataURL('image/jpeg',0.95);
+  downloadDataURL(outData, 'merged.jpg');
+
+  hideSpinnerForButton(saveMerged);
+  saveMerged.disabled = false;
+});
+
+/* ====== savePDF (MODIFIED: ensure orientation fixed before adding to PDF, spinner & disabled state) ====== */
+savePDF.addEventListener('click', async ()=>{
+  if(!originals.length){ alert('No images'); return; }
+  savePDF.disabled = true;
+  const sp = showSpinnerForButton(savePDF);
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({ unit:'pt', format:'a4' });
+  const W = 595.28, H = 841.89;
+
+  for(let i=0;i<originals.length;i++){
+    let raster = null;
+    if(originalsFiles[i]){
+      raster = await rasterizeFileToDataURL(originalsFiles[i], 'image/jpeg', 0.92).catch(_=>null);
+    }
+    if(!raster) raster = originals[i] || previews[i];
+
+    if(!raster){
+      alert(`Skipping page ${i+1}: cannot decode image for PDF.`);
+      continue;
+    }
+
+    // IMPORTANT: normalize orientation to avoid mobile EXIF rotate/stretch issues
+    raster = await fixOrientationDataURL(raster).catch(_=>raster);
+
+    const img = await loadImage(raster);
+    // compute scale to fit A4 *without* flipping orientation
+    let ratio = Math.min(W / img.width, H / img.height);
+    // if image is extremely tall or wide, ratio handles it. keep aspect ratio.
+    const w = img.width * ratio, h = img.height * ratio;
+    const x = (W - w) / 2, y = (H - h) / 2;
+    if(i>0) pdf.addPage();
+    // always pass raster as JPEG; jsPDF will accept the data URL
+    pdf.addImage(raster, 'JPEG', x, y, w, h);
+  }
+
+  pdf.save('document.pdf');
+
+  hideSpinnerForButton(savePDF);
+  savePDF.disabled = false;
+});
+
+/* ====== remaining UI wiring (crop modal open/close, rotate, filters, save/cancel) ====== */
+/* NOTE: cropToggle and saveBtn flows updated to match performCrop behavior (saveBtn will close modal) */
+
+let cropVisible = false;
+function showCrop(){ cropVisible = true; drawCrop(); cropSVG.style.display = "block"; cropModal.style.display='flex'; cropModal.setAttribute('aria-hidden','false'); cropToggle.innerText = 'Save Crop'; }
+function hideCrop(){ cropVisible = false; cropSVG.style.display = "none"; cropToggle.innerText = 'Crop'; }
+
+async function openCrop(i){
+  currentIndex = i;
+  const previewSrc = uiPreview[i] || previews[i] || originals[i] || null;
+  if(previewSrc){
+    try{ cropImage.src = previewSrc; }catch(e){ cropImage.src = ''; }
+  } else {
+    cropImage.src = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800"><rect width="100%" height="100%" fill="#111"/><text x="50%" y="50%" fill="#fff" font-size="20" text-anchor="middle">Preview not supported</text></svg>');
+  }
+  cropModal.style.display = 'flex';
+  cropModal.setAttribute('aria-hidden','false');
+  cropVisible = false;
+  cropToggle.innerText = 'Crop';
+  cropImage.onload = async ()=>{
+    svgW = cropImage.naturalWidth;
+    svgH = cropImage.naturalHeight;
+    createSVG(svgW, svgH);
+    const [ax,ay,bx,by] = await autoDetectRect(previews[i] || originals[i]);
+    const safeAx = (ax||0); const safeAy = (ay||0); const safeBx = (bx||svgW); const safeBy = (by||svgH);
+    P = [{x:safeAx,y:safeAy},{x:safeBx,y:safeAy},{x:safeBx,y:safeBy},{x:safeAx,y:safeBy}];
+    drawCrop();
+    hideCrop();
+  };
+}
+
+function closeCropModal(){ cropModal.style.display = 'none'; cropModal.setAttribute('aria-hidden','true'); currentIndex = null; hideCrop(); }
+
+/* cropToggle: Crop -> (user edits polygon) -> Save Crop (performCrop but keep modal open) */
+cropToggle.addEventListener('click', async ()=>{
+  if(!Number.isInteger(currentIndex)) return;
+  if(!cropVisible){
+    showCrop();
+  } else {
+    // Save Crop but stay in editor so user can continue further edits
+    await performCrop(currentIndex);
+    // updated preview already applied by performCrop; UI shows updated image and crop region reset
+    // do not close modal here
+  }
+});
+
+cropCancel.addEventListener('click', ()=>{ closeCropModal(); });
+
+rotateBtn.addEventListener('click', async ()=>{
+  if(currentIndex===null) return;
+  const i = currentIndex;
+  saveBtn.disabled = true;
+  const spinner = showSpinnerForButton(saveBtn);
+  // attempt rotate existing decoded original
+  let rotated = null;
+  if(originals[i]){
+    rotated = await rotateDataURL(originals[i]).catch(_=>null);
+  }
+  if(!rotated && originalsFiles[i]){
+    const r = await rasterizeFileToDataURL(originalsFiles[i], 'image/jpeg', 0.92).catch(_=>null);
+    if(r) rotated = await rotateDataURL(r).catch(_=>null);
+  }
+  if(!rotated){
+    hideSpinnerForButton(saveBtn);
+    saveBtn.disabled = false;
+    alert('Rotate failed for this file (unsupported format).');
+    return;
+  }
+  // set rotated image as original and update previews
+  originals[i] = rotated;
+  const prev = await makePreviewFromImageElement(await loadImage(rotated));
+  previews[i] = prev;
+  uiPreview[i] = prev;
+  renderThumbs();
+  cropImage.src = uiPreview[i];
+  cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); P=[{x:0,y:0},{x:svgW,y:0},{x:svgW,y:svgH},{x:0,y:svgH}]; drawCrop(); hideCrop(); };
+  hideSpinnerForButton(saveBtn);
+  saveBtn.disabled = false;
+});
+
+applyGray.addEventListener('click', async ()=>{
+  if(currentIndex===null) return;
+  const i = currentIndex;
+  grayscaleFlags[i] = !grayscaleFlags[i];
+  bwFlags[i] = false;
+  if(grayscaleFlags[i] && previews[i]) uiPreview[i] = await applyGrayPreviewDataURL(previews[i]); else uiPreview[i] = previews[i];
+  cropImage.src = uiPreview[i] || originals[i] || '';
+  cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); drawCrop(); hideCrop(); };
+  renderThumbs();
+});
+
+applyBW.addEventListener('click', async ()=>{
+  if(currentIndex===null) return;
+  const i = currentIndex;
+  bwFlags[i] = !bwFlags[i];
+  grayscaleFlags[i] = false;
+  if(bwFlags[i] && previews[i]) uiPreview[i] = await applyBWPreviewDataURL(previews[i]); else uiPreview[i] = previews[i];
+  cropImage.src = uiPreview[i] || originals[i] || '';
+  cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); drawCrop(); hideCrop(); };
+  renderThumbs();
+});
+
+bwRange.addEventListener('input', async ()=>{
+  if(currentIndex===null) return;
+  const i = currentIndex;
+  if(bwFlags[i] && previews[i]){
+    uiPreview[i] = await applyBWPreviewDataURL(previews[i]);
+    cropImage.src = uiPreview[i];
+    cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); drawCrop(); hideCrop(); };
+    renderThumbs();
+  }
+});
+
+origBtn.addEventListener('click', ()=>{
+  if(currentIndex===null) return;
+  const i = currentIndex;
+  grayscaleFlags[i] = false; bwFlags[i] = false;
+  uiPreview[i] = previews[i];
+  cropImage.src = uiPreview[i] || originals[i] || '';
+  cropImage.onload = ()=>{ svgW = cropImage.naturalWidth; svgH = cropImage.naturalHeight; createSVG(svgW,svgH); drawCrop(); hideCrop(); };
+  renderThumbs();
+});
+
+/* Save (final) button — applies final filters to original and CLOSES modal */
+saveBtn.addEventListener('click', async ()=>{
+  if(currentIndex===null) { closeCropModal(); return; }
+  const btn = saveBtn;
+  btn.disabled = true;
+  const sp = showSpinnerForButton(btn);
+  if(cropVisible){
+    // if user left polygon visible and presses Save (final), perform crop first
+    await performCrop(currentIndex);
+  }
+  await applyFinalFiltersToOriginal(currentIndex);
+  hideSpinnerForButton(btn);
+  btn.disabled = false;
+  closeCropModal();
+});
+
+/* ====== initial render & readme handling (unchanged) ====== */
+renderThumbs();
+
+// PWA register...
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+  .then(() => console.log("SW Registered"))
+  .catch(err => console.log("SW Failed", err));
+}
+
+let deferredPrompt;
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = "inline-block";
+});
+
+installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+    if (choice.outcome === "accepted") {
+        installBtn.style.display = "none";
+    }
+    deferredPrompt = null;
+});
+
+const EN_README = `
+<h3>How to use Smart Cam Scanner (English)</h3>
+<ol>
+  <li>Use the <strong>Camera</strong> button to take a photo of your document. Photos appear as thumbnails on the page.</li>
+  <li>Use the <strong>Gallery</strong> button to add images saved on your device (JPEG, PNG, WEBP, HEIC/HEIF supported for input).</li>
+  <li>Click a thumbnail to open the editor — crop, rotate, apply Grayscale or B/W preview.</li>
+  <li>Press <strong>Save</strong> inside the editor to apply changes to the original image (saved as JPEG internally if necessary).</li>
+  <li>Use <strong>Save PDF</strong> to convert all images to a single PDF. Use <strong>Merge All</strong> to download merged JPG.</li>
+  <li>Use <strong>Save Images</strong> to download individual images in JPEG/PNG/WEBP (browser-dependent support).</li>
+  <li>Feedback: <a href='mailto:skycommunics@gmail.com'>skycommunics@gmail.com</a></li>
+</ol>
+`;
+const HI_README = `
+<h3>कैसे उपयोग करें — Smart Cam Scanner (हिन्दी)</h3>
+<ol>
+  <li><strong>Camera</strong> बटन दबाकर अपने दस्तावेज़ की तस्वीर लें — तस्वीरें थंबनेल के रूप में दिखाई देंगी।</li>
+  <li><strong>Gallery</strong> बटन से अपने डिवाइस में सेव इमेज (JPEG, PNG, WEBP, HEIC/HEIF) जोड़ें।</li>
+  <li>थंबनेल पर क्लिक करने से एडिटर खुलेगा — क्रॉप, रोटेट, Grayscale या B/W preview लागू करें।</li>
+  <li>एडिटर में <strong>Save</strong> दबाने पर बदलाव मूल इमेज पर सेव होंगे (जरूरत होने पर JPEG में)।</li>
+  <li><strong>Save PDF</strong> दबाने पर सभी इमेज एक PDF में कनवर्ट होकर डाउनलोड होंगी। <strong>Merge All</strong> से एकल JPG बनेगा।</li>
+  <li><strong>Save Images</strong> से JPEG/PNG/WEBP में डाउनलोड कर सकते हैं (ब्राउज़र सपोर्ट पर निर्भर)।</li>
+  <li>प्रतिक्रिया के लिए मेल: <a href='mailto:skycommunics@gmail.com'>skycommunics@gmail.com</a></li>
+</ol>
+`;
+
+function setReadme(lang){
+  if(lang === 'hi'){ readmeContent.innerHTML = HI_README; readmeLangBtn.style.display='none'; readmeEngBtn.style.display='inline-block'; }
+  else { readmeContent.innerHTML = EN_README; readmeEngBtn.style.display='none'; readmeLangBtn.style.display='inline-block'; }
+}
+setReadme('en');
+
+readmeEngBtn.addEventListener('click', ()=> setReadme('en'));
+readmeLangBtn.addEventListener('click', ()=> setReadme('hi'));
+
+/* expose debug hook */
+window.openCrop = openCrop;
+
+</script>
